@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เจาะลึก Claude Code: คู่มือฉบับสมบูรณ์สำหรับนักพัฒนา</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #111827;
+            /* bg-gray-900 */
+            color: #d1d5db;
+            /* text-gray-300 */
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.15), transparent 60%);
+        }
+
+        .section-title {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background-color: #1f2937;
+            /* bg-gray-800 */
+            color: #93c5fd;
+            /* text-blue-300 */
+            font-family: 'Menlo', 'Consolas', monospace;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+            /* border-gray-700 */
+            display: inline-block;
+        }
+
+        .card {
+            background-color: #1f2937;
+            /* bg-gray-800 */
+            border: 1px solid #374151;
+            /* border-gray-700 */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+        }
+
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            stroke-width: 1.5;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex items-center justify-center text-center px-4 py-16 hero-gradient">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-blue-500/10 text-blue-400 text-sm font-semibold px-3 py-1 rounded-full mb-4">AI
+                Coding Agent</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 section-title">เจาะลึก Claude Code</h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                คู่มือฉบับสมบูรณ์สำหรับนักพัฒนา: ปลดล็อกประสิทธิภาพการทำงานขั้นสูงสุดผ่าน AI
+                ที่สนทนาได้โดยตรงจากเทอร์มินัลของคุณ
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-12 md:py-20 space-y-16">
+
+        <!-- Instructor Section -->
+        <section id="instructor">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-gray-500/10 p-2 rounded-lg">
+                    <svg class="icon text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">แนะนำผู้สอน</h2>
+            </div>
+            <div class="card text-center">
+                <img src="https://placehold.co/128x128/1f2937/9ca3af?text=T.W." alt="รูปภาพผู้สอน"
+                    class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-700 object-cover">
+                <h3 class="text-2xl font-bold text-white">Prof. Tonman Worawut Sr. Boontan</h3>
+                <p class="text-blue-400 mb-2">Ph.D. Human Biology</p>
+                <div class="mt-4 flex justify-center items-center gap-x-4 flex-wrap text-gray-400">
+                    <span><strong>Work Experience:</strong></span>
+                    <span class="font-semibold">NASA</span> &bull;
+                    <span class="font-semibold">WTO</span> &bull;
+                    <span class="font-semibold">MIT</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Getting Started -->
+        <section id="getting-started">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="icon text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🚀 เริ่มต้นใช้งาน</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">Claude Code คืออะไร?</h3>
+                    <p>AI Agent ที่ทำงานผ่าน Command Line (CLI) ช่วยให้คุณมอบหมายงานเขียนโค้ด, แก้บั๊ก,
+                        หรือวางโครงสร้างโปรเจกต์ผ่านการแชท จุดเด่นคือความสามารถในการ "คิด" และวางแผนก่อนลงมือทำ</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">การตั้งค่าพื้นฐาน</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                        <li><strong>เรียกใช้งาน:</strong> เปิดเทอร์มินัลแล้วพิมพ์ <code class="code-block">claude</code>
+                        </li>
+                        <li><strong>เริ่มต้นโปรเจกต์:</strong> ใช้คำสั่ง <code class="code-block">/init</code>
+                            เพื่อสแกนโปรเจกต์และสร้างไฟล์ <code class="code-block">claude.md</code></li>
+                        <li><strong>โต้ตอบ:</strong> เริ่มแชทเพื่อถามคำถามหรือมอบหมายงานได้ทันที</li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">หัวใจของโปรเจกต์: ไฟล์ <code
+                            class="text-green-400">claude.md</code></h3>
+                    <p>ไฟล์นี้ทำหน้าที่เป็น "หน่วยความจำระยะยาว" ของ Claude Code สำหรับโปรเจกต์นั้นๆ
+                        คุณสามารถแก้ไขเพื่อใส่ข้อกำหนดหรือข้อมูลสำคัญที่อยากให้ AI จดจำไว้เสมอ</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">โหมดวางแผน (Plan Mode)</h3>
+                    <p>กด <code class="code-block">Shift + Tab</code> เพื่อเข้าสู่ Plan Mode ดูแผนการทำงานที่ AI
+                        คิดไว้ทีละขั้นตอน ช่วยให้คุณตรวจสอบและอนุมัติก่อนที่โค้ดจะถูกแก้ไขจริง</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Workflow & Tips -->
+        <section id="workflow">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-green-500/10 p-2 rounded-lg">
+                    <svg class="icon text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">💡 เวิร์กโฟลว์และเทคนิค</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">ใช้ Git เป็นจุดเซฟ</h3>
+                    <p>ควร Commit การเปลี่ยนแปลงบ่อยๆ เนื่องจาก Claude Code ไม่มีฟังก์ชัน "Undo" ในตัว หากไม่พอใจผลลัพธ์
+                        สามารถใช้ Git ย้อนกลับได้ง่ายดาย</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">ตรวจสอบงานเสมอ</h3>
+                    <p>คิดเสมอว่าโค้ดจาก AI มาจากเพื่อนร่วมทีม ควรตรวจสอบและรีวิวโค้ดทุกครั้งเพื่อคุณภาพและความถูกต้อง
+                    </p>
+                </div>
+                <div class="card md:col-span-2">
+                    <h3 class="text-xl font-semibold text-white mb-2">เพิ่มบริบทให้ AI</h3>
+                    <p class="mb-4">ยิ่งบริบทมาก ผลลัพธ์ยิ่งแม่นยำ:</p>
+                    <ul class="space-y-2 list-disc list-inside">
+                        <li><strong>ลากรูปภาพ:</strong> แคปหน้าจอข้อผิดพลาดหรือดีไซน์ที่ต้องการแล้วลากใส่เทอร์มินัล</li>
+                        <li><strong>ลากโฟลเดอร์:</strong> ลากโฟลเดอร์โปรเจกต์ที่เกี่ยวข้องเพื่อให้ AI เข้าใจภาพรวม</li>
+                        <li><strong>ส่ง URL:</strong> ส่งลิงก์เอกสาร API หรือหน้าเว็บเพื่อให้ AI ใช้อ้างอิง</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Git Worktrees -->
+        <section id="worktrees">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-yellow-500/10 p-2 rounded-lg">
+                    <svg class="icon text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.75 7.5 3 11.25l3.75 3.75M17.25 7.5 21 11.25l-3.75 3.75M13.5 4.5 10.5 19.5" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">⚡️ Multitasking ด้วย Git Worktrees</h2>
+            </div>
+            <div class="card">
+                <p class="mb-4">แก้ปัญหา Git Conflicts ด้วย <strong class="text-white">Git Worktrees</strong>
+                    ซึ่งช่วยให้คุณ checkout หลาย branch พร้อมกันในไดเรกทอรีที่แยกจากกัน ทำให้รัน Claude Code หลาย
+                    Instance ได้โดยไม่ชนกัน</p>
+                <h4 class="font-semibold text-white mt-4 mb-2">ขั้นตอนการใช้งาน:</h4>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li>สร้างโฟลเดอร์สำหรับ worktrees นอกโปรเจกต์หลัก</li>
+                    <li>ใช้คำสั่ง <code
+                            class="code-block">git worktree add ../path-to-worktrees/&lt;branch&gt; &lt;branch&gt;</code>
+                    </li>
+                    <li>เปิด IDE แยกสำหรับแต่ละ worktree และรัน Claude Code คนละ Instance</li>
+                </ol>
+                <div class="mt-4 bg-red-900/50 border border-red-500/30 text-red-300 text-sm rounded-lg p-3">
+                    <strong>ข้อควรระวัง:</strong> อย่าสร้าง worktree เป็น subfolder ภายใต้โปรเจกต์หลักเด็ดขาด
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Hooks -->
+        <section id="hooks">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="icon text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">⚙️ ควบคุมและปรับแต่งด้วย Hooks</h2>
+            </div>
+            <div class="space-y-6">
+                <p>Hooks คือกลไกที่ช่วยให้คุณ "ตั้งโปรแกรม" พฤติกรรมของ Claude Code ได้ ทำให้คุณสามารถควบคุม,
+                    สังเกตการณ์, หรือบล็อกคำสั่งที่ไม่ต้องการได้</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="card p-4">
+                        <h4 class="font-semibold text-white">pre-tool-use</h4>
+                        <p class="text-sm">ทำงาน <strong class="text-white">ก่อน</strong> รันคำสั่ง (เช่น
+                            บล็อกคำสั่งอันตราย)</p>
+                    </div>
+                    <div class="card p-4">
+                        <h4 class="font-semibold text-white">post-tool-use</h4>
+                        <p class="text-sm">ทำงาน <strong class="text-white">หลัง</strong> รันคำสั่ง (เช่น Logging)</p>
+                    </div>
+                    <div class="card p-4">
+                        <h4 class="font-semibold text-white">notification</h4>
+                        <p class="text-sm">ทำงานเมื่อ AI ต้องการ Input จากผู้ใช้</p>
+                    </div>
+                    <div class="card p-4">
+                        <h4 class="font-semibold text-white">stop</h4>
+                        <p class="text-sm">ทำงานเมื่อ AI ตอบกลับเสร็จสิ้น</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Extensions -->
+        <section id="extensions">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-pink-500/10 p-2 rounded-lg">
+                    <svg class="icon text-pink-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🧩 การต่อยอดและขยายความสามารถ</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">Claude Code UI</h3>
+                    <p>Web-based UI สำหรับ Claude Code ที่ช่วยให้คุณเข้าถึง Agent ได้จากทุกที่ผ่านเบราว์เซอร์
+                        มาพร้อมหน้าตาที่ใช้งานง่ายทั้งบนเดสก์ท็อปและมือถือ</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">Claude Code Router</h3>
+                    <p>เครื่องมือเสริมที่ทำหน้าที่เป็น Proxy ช่วยให้ Claude Code สามารถเรียกใช้ AI Model อื่นๆ ได้ เช่น
+                        GPT-4, Gemini, หรือ Llama</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Future -->
+        <section id="future">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-indigo-500/10 p-2 rounded-lg">
+                    <svg class="icon text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🤔 ข้อควรพิจารณาและอนาคต</h2>
+            </div>
+            <div class="card">
+                <h3 class="text-xl font-semibold text-white mb-2">The Big Three</h3>
+                <p>หัวใจสำคัญของ AI Coding ยังคงเป็น 3 สิ่งนี้เสมอ: <strong class="text-white">บริบท (Context)</strong>,
+                    <strong class="text-white">โมเดล (Model)</strong>, และ <strong class="text-white">พรอมต์
+                        (Prompt)</strong>. การเข้าใจหลักการเหล่านี้จะช่วยให้คุณปรับตัวเข้ากับเครื่องมือ AI ใหม่ๆ ได้เสมอ
+                </p>
+                <hr class="border-gray-700 my-4">
+                <h3 class="text-xl font-semibold text-white mb-2">อนาคต</h3>
+                <p>Claude Code กำลังกลายเป็นเครื่องมือพื้นฐานทางวิศวกรรม (Engineering Primitive) ที่ทรงพลัง
+                    ซึ่งจะเป็นรากฐานสำคัญสำหรับเครื่องมือและเวิร์กโฟลว์ใหม่ๆ ที่จะเกิดขึ้นในอนาคต</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 mt-16 border-t border-gray-800">
+        <p class="text-gray-500">Generated with AI</p>
+    </footer>
+
+</body>
+
+</html>
