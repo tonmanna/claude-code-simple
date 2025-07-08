@@ -266,8 +266,8 @@
             </div>
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-2">Claude Code UI</h3>
-                    <p>Web-based UI สำหรับ Claude Code ที่ช่วยให้คุณเข้าถึง Agent ได้จากทุกที่ผ่านเบราว์เซอร์
+                    <h3 class="text-xl font-semibold text-white mb-2">Claudia Claud Code UI</h3>
+                    <p>UI สำหรับ Claude Code ที่ช่วยให้คุณเข้าถึง Agent ได้จากทุกที่ผ่านเบราว์เซอร์
                         มาพร้อมหน้าตาที่ใช้งานง่ายทั้งบนเดสก์ท็อปและมือถือ</p>
                 </div>
                 <div class="card">
@@ -275,6 +275,77 @@
                     <p>เครื่องมือเสริมที่ทำหน้าที่เป็น Proxy ช่วยให้ Claude Code สามารถเรียกใช้ AI Model อื่นๆ ได้ เช่น
                         GPT-4, Gemini, หรือ Llama</p>
                 </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">SuperClaude</h3>
+                    <p>เครื่องมือเสริมที่ทำหน้าที่เป็น ขยายความสามารถของ Claude Code ให้สามารถเปลี่ยน Persona ได้</p>
+                </div>
+
+            </div>
+        </section>
+
+
+
+        <!-- Section 7: MCP -->
+        <section id="mcp">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-emerald-500/10 p-2 rounded-lg">
+                    <svg class="icon text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-16.5 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🔌 MCP (Model Context Protocol)</h2>
+            </div>
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">MCP คืออะไร?</h3>
+                    <p>Model Context Protocol (MCP) เป็นโปรโตคอลที่ช่วยให้ Claude Code
+                        สามารถเชื่อมต่อกับเครื่องมือและบริการภายนอกได้
+                        ขยายความสามารถของ AI ให้ทำงานกับระบบต่างๆ ได้อย่างมีประสิทธิภาพ</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">MCP Services แนะนำ</h3>
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">🖥️ Desktop Commander</h4>
+                            <p class="text-sm">ควบคุมระบบปฏิบัติการ อ่านไฟล์ เขียนไฟล์ และจัดการระบบผ่าน Claude Code</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">🌐 Browser MCP</h4>
+                            <p class="text-sm">ควบคุมเบราว์เซอร์ เปิดหน้าเว็บ คลิก พิมพ์ และจัดการ Web Elements</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">🎭 Playwright MCP</h4>
+                            <p class="text-sm">ทำ Web Testing และ Automation ผ่าน Playwright framework</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">📚 Context7</h4>
+                            <p class="text-sm">เข้าถึงเอกสาร Library และ API Documentation ได้โดยตรง</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">🔍 Sequential</h4>
+                            <p class="text-sm">ความสามารถในการให้เหตุผลแบบหลายขั้นตอน (Multi-step reasoning)</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">✨ Magic</h4>
+                            <p class="text-sm">สร้าง UI Components ที่ใช้งานได้จริงผ่าน AI generation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-2">การเชื่อมต่อ MCP</h3>
+                    <p class="mb-4">MCP ช่วยให้ Claude Code มีความสามารถเพิ่มขึ้นอย่างมาก:</p>
+                    <ul class="space-y-2 list-disc list-inside">
+                        <li><strong>ขยายฟังก์ชัน:</strong> เพิ่มเครื่องมือใหม่ๆ โดยไม่ต้องแก้ Core System</li>
+                        <li><strong>ทำงานข้ามระบบ:</strong> เชื่อมต่อกับ Database, API, หรือ Cloud Services</li>
+                        <li><strong>Automation:</strong> ทำงานอัตโนมัติที่ซับซ้อนข้ามหลายระบบ</li>
+                        <li><strong>ปรับแต่งได้:</strong> สร้าง MCP Server เฉพาะสำหรับความต้องการของทีม</li>
+                    </ul>
+                </div>
+
             </div>
         </section>
 
