@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Techniques - Claude Code Team Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.15), transparent 60%);
+        }
+
+        .section-title {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background-color: #1f2937;
+            color: #93c5fd;
+            font-family: 'Menlo', 'Consolas', monospace;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+            display: inline-block;
+        }
+
+        .card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+        }
+
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            stroke-width: 1.5;
+        }
+
+        .navbar {
+            background-color: #1f2937;
+            border-bottom: 1px solid #374151;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .nav-link:hover {
+            background-color: #374151;
+            color: #60a5fa;
+        }
+
+        .nav-link.active {
+            background-color: #1d4ed8;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-xl font-bold text-white">Claude Code Guide</a>
+                    <span class="text-gray-400">|</span>
+                    <div class="flex space-x-2">
+                        <a href="index.html" class="nav-link">หน้าหลัก</a>
+                        <a href="advanced-techniques.html" class="nav-link active">Advanced Techniques</a>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    Prof. Tonman Worawut Sr. Boontan
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-96 flex items-center justify-center text-center px-4 py-16 hero-gradient">
+        <div class="max-w-4xl mx-auto">
+            <span
+                class="inline-block bg-purple-500/10 text-purple-400 text-sm font-semibold px-3 py-1 rounded-full mb-4">Advanced
+                Techniques</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 section-title">Team & Sub-agents</h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                เทคนิคขั้นสูงสำหรับการพัฒนาแบบทีม การใช้ Sub-agents และ Workflow ที่มีประสิทธิภาพ
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-12 md:py-20 space-y-16">
+
+        <!-- Section 1: Claude Code Team Development Workflow -->
+        <section id="team-workflow">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="icon text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🏗️ Team Development Workflow</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">โครงสร้างโปรเจกต์และการตั้งค่าเริ่มต้น</h3>
+                    <p class="text-gray-300 mb-4">การจัดการโปรเจกต์ที่มีประสิทธิภาพด้วย Claude Code
+                        เริ่มต้นจากการตั้งค่าโครงสร้างที่ถูกต้อง:</p>
+                    <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">📁 Project Root
+├── 📁 music-shop/                    # Main project directory
+│   ├── 📄 claude.md                  # Claude's "brain" - project memory
+│   ├── 📁 .claude/                   # Claude Code settings
+│   ├── 📁 .cursor/                   # Cursor settings
+│   ├── 📄 .env                       # Environment variables
+│   └── 📄 settings.json              # Hooks configuration
+└── 📁 music-shop-worktrees/          # Worktrees directory (parallel to main)
+    ├── 📁 feature-authentication/
+    ├── 📁 feature-payment/
+    └── 📁 feature-dashboard/</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🔄 กระบวนการพัฒนาแบบขั้นตอน</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">Phase 1: วางแผนและการตั้งค่า</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                <li><strong>วิเคราะห์ความต้องการ:</strong> ใช้ Plan Mode (Shift + Tab)</li>
+                                <li><strong>สร้าง GitLab Issue:</strong> บันทึกความต้องการ</li>
+                                <li><strong>สร้าง Git Worktree:</strong> <code
+                                        class="code-block">git worktree add ../worktrees/feature-name feature-name</code>
+                                </li>
+                                <li><strong>ตั้งค่าสภาพแวดล้อม:</strong> คัดลอกไฟล์ .env, .claude, .cursor</li>
+                                <li><strong>เปิด Editor ใหม่:</strong> แยก IDE instance</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">Phase 2: วงจรการพัฒนา</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                <li><strong>เขียนโค้ด:</strong> ใช้ Git เป็นระบบ Checkpoint</li>
+                                <li><strong>Commit บ่อยๆ:</strong> บันทึกความก้าวหน้า</li>
+                                <li><strong>Code Review:</strong> ตรวจสอบเหมือน Pull Request</li>
+                                <li><strong>ตรวจสอบคุณภาพ:</strong> ไม่ยอมรับโดยไม่ตรวจสอบ</li>
+                                <li><strong>Merge หรือ Revert:</strong> ยอมรับหรือทิ้งการเปลี่ยนแปลง</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">⚡ การทำงานแบบขนาน (Parallel Development)</h3>
+                    <p class="text-gray-300 mb-4">ใช้ Git Worktrees เพื่อจัดการหลาย Feature พร้อมกันโดยไม่มีการชนกัน:
+                    </p>
+                    <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">Session 1: Authentication Feature
+├── 📁 music-shop-worktrees/feature-auth/
+├── 💻 Cursor Instance #1
+├── 🖥️ Terminal #1
+└── 🤖 Claude Code Instance #1
+
+Session 2: Payment Integration
+├── 📁 music-shop-worktrees/feature-payment/
+├── 💻 Cursor Instance #2
+├── 🖥️ Terminal #2
+└── 🤖 Claude Code Instance #2
+
+Session 3: Dashboard UI
+├── 📁 music-shop-worktrees/feature-dashboard/
+├── 💻 Cursor Instance #3
+├── 🖥️ Terminal #3
+└── 🤖 Claude Code Instance #3</code></pre>
+                    <div class="bg-red-900/50 border border-red-500/30 text-red-300 text-sm rounded-lg p-3 mt-4">
+                        <strong>ข้อควรระวัง:</strong> อย่าสร้าง Worktree เป็น subfolder ภายใต้โปรเจกต์หลักเด็ดขาด
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🚀 Automation Scripts</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">สคริปต์สร้าง Worktree (WT)</h4>
+                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">#!/bin/bash
+# WT - Worktree automation script
+
+FEATURE_NAME=$1
+WORKTREE_DIR="../music-shop-worktrees/$FEATURE_NAME"
+
+# Create worktree and branch
+git worktree add $WORKTREE_DIR $FEATURE_NAME
+
+# Copy essential files
+cp .env $WORKTREE_DIR/
+cp -r .claude $WORKTREE_DIR/
+cp -r .cursor $WORKTREE_DIR/
+cp claude.md $WORKTREE_DIR/
+
+# Open new editor instance
+cursor $WORKTREE_DIR &
+
+echo "✅ Worktree '$FEATURE_NAME' created and ready!"</code></pre>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">สคริปต์ทำความสะอาด</h4>
+                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">#!/bin/bash
+# Cleanup completed worktrees
+
+FEATURE_NAME=$1
+WORKTREE_DIR="../music-shop-worktrees/$FEATURE_NAME"
+
+# Remove worktree
+git worktree remove $WORKTREE_DIR
+
+# Delete branch (optional)
+git branch -d $FEATURE_NAME
+
+echo "🗑️ Worktree '$FEATURE_NAME' cleaned up!"</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Sub-agents Guide -->
+        <section id="subagents">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="icon text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.204-8.135-.593-1.717-.293-2.299-2.379-1.067-3.61L5 14.5" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🤖 Complete Guide to Sub-agents</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Sub-agents คืออะไร?</h3>
+                    <p class="text-gray-300 mb-4">Sub-agents เป็น lightweight instances ของ Claude Code ที่สามารถทำงานใน
+                        tasks และแต่ละ agent จะมี context window ของตัวเอง</p>
+                    <div class="bg-blue-900/30 border-l-4 border-blue-400 p-4">
+                        <h4 class="font-semibold text-blue-300 mb-2">🔧 วิธีการทำงาน</h4>
+                        <ul class="text-blue-200 space-y-1">
+                            <li>• รันหลาย tasks พร้อมกัน (parallel)</li>
+                            <li>• แต่ละ sub-agent มี context window แยกจากกัน</li>
+                            <li>• สามารถเข้าถึง tools เดียวกันกับ main agent</li>
+                            <li>• ไม่สามารถสร้าง sub-tasks ได้ (ไม่มี nested sub-agents)</li>
+                            <li>• Max parallelism ประมาณ 10 agents</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🚀 การสร้าง Sub-agents พื้นฐาน</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-2">การสร้างง่ายๆ</h4>
+                            <p class="text-gray-300 mb-3">เพียงแค่ขอให้ Claude Code สร้าง tasks หรือใช้ sub-agents:</p>
+                            <pre
+                                class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm"><code class="text-green-400">"Explore the codebase using 4 tasks in parallel. Each agent should explore different directories."</code></pre>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-2">ตัวอย่างผลลัพธ์</h4>
+                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm"><code class="text-cyan-400">● Task(Explore backend structure)
+  ⎿ Done (17 tool uses · 29.9k tokens · 5m 47.6s)
+● Task(Explore frontend structure)  
+  ⎿ Done (15 tool uses · 22.1k tokens · 4m 12.3s)
+● Task(Explore database structure)
+  ⎿ Done (12 tool uses · 18.7k tokens · 3m 8.9s)
+● Task(Explore configuration files)
+  ⎿ Done (9 tool uses · 14.2k tokens · 2m 15.6s)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🎯 Advanced Sub-agent Patterns</h3>
+                    <div class="space-y-6">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">1. Parallel Development Tasks</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code class="text-green-400 whitespace-pre-wrap">"Create a new feature with 5 parallel tasks:
+1. Task: Create main component file
+2. Task: Create component styles/CSS  
+3. Task: Create test files
+4. Task: Create type definitions
+5. Task: Update routing and integration"</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-blue-400 mb-2">2. Code Review and Testing</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-blue-400 whitespace-pre-wrap">"Use 2 sub-agents: one to write the authentication function, another to write comprehensive tests for it"</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-purple-400 mb-2">3. Multi-angle Problem Solving</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-purple-400 whitespace-pre-wrap">"I want to refactor X to do Y. Can you research three separate ideas for how to do it? Do it in parallel. Use three agents to do it."</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-orange-400 mb-2">4. Large Codebase Analysis</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-orange-400 whitespace-pre-wrap">"Analyze this large codebase using 8 parallel tasks. Each should focus on different modules and report key findings."</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🛠️ เพิ่มประสิทธิภาพ Sub-agents</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-2">1. Explicit Task Delegation</h4>
+                            <p class="text-gray-300 mb-3">ให้รายละเอียดชัดเจนว่า step ไหนจะมอบให้ sub-agents:</p>
+                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm"><code class="text-green-400">"Create a new React component with these explicit parallel tasks:
+1. Task: Create component.tsx file with TypeScript interfaces
+2. Task: Create component.test.tsx with unit tests
+3. Task: Create component.stories.tsx for Storybook
+4. Task: Create component.module.css with responsive styles
+5. Task: Update index.ts exports and documentation"</code></pre>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-2">2. Task Grouping Strategy</h4>
+                            <p class="text-gray-300 mb-3">จัดกลุ่มงานที่เกี่ยวข้องกันให้มีประสิทธิภาพมากขึ้น:</p>
+                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm"><code class="text-green-400">"Use 3 parallel tasks for this feature:
+1. Task: Handle all component creation (main file, types, hooks)
+2. Task: Handle all testing (unit tests, integration tests, stories)
+3. Task: Handle all integration (routing, exports, documentation)"</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🔄 Practical Sub-agent Workflows</h3>
+                    <div class="space-y-6">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-cyan-400 mb-2">Test-Driven Development</h4>
+                            <div class="bg-gray-800 p-3 rounded text-sm overflow-x-auto">
+                                <code class="text-cyan-400 whitespace-pre-wrap">"Use TDD with 2 sub-agents:
+1. Task: Write comprehensive tests for user authentication feature
+2. Task: Write code that passes all the tests from agent 1"</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">Research and Implementation</h4>
+                            <div class="bg-gray-800 p-3 rounded text-sm overflow-x-auto">
+                                <code class="text-emerald-400 whitespace-pre-wrap">"Research the best approach for state management in our app:
+1. Task: Research Redux Toolkit approach with pros/cons
+2. Task: Research Zustand approach with pros/cons  
+3. Task: Research React Context approach with pros/cons
+4. Task: Create implementation recommendation"</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🎨 Creative Sub-agent Use Cases</h3>
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-yellow-400 mb-2">Multi-Perspective Analysis</h4>
+                                <p class="text-xs text-gray-300">วิเคราะห์ business proposal จากมุมมอง Financial,
+                                    Technical, Market และ Risk</p>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-pink-400 mb-2">Documentation Generation</h4>
+                                <p class="text-xs text-gray-300">สร้างเอกสาร API, User Guide, Developer Setup และ
+                                    Troubleshooting Guide</p>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-red-400 mb-2">Quality Assurance</h4>
+                                <p class="text-xs text-gray-300">QA ด้าน Code Quality, Security, Performance,
+                                    Accessibility และ Compatibility</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🚨 ข้อจำกัดและวิธีแก้ไข</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-red-900/30 border border-red-500/30 rounded-lg p-4">
+                            <h4 class="font-semibold text-red-400 mb-2">❌ ข้อจำกัด</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• Parent ไม่เห็นกิจกรรมของ Sub-agents</li>
+                                <li>• ไม่สามารถสร้าง Nested Sub-agents</li>
+                                <li>• Batch Processing อาจช้า</li>
+                                <li>• จำกัดที่ 10 agents พร้อมกัน</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">✅ วิธีแก้ไข</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• ใช้ shared status.md file</li>
+                                <li>• วางแผน task hierarchy ที่ main agent</li>
+                                <li>• ใช้ batch size ที่เหมาะสม (4-6 tasks)</li>
+                                <li>• มี explicit reporting mechanisms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Integration & Best Practices -->
+        <section id="integration">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-emerald-500/10 p-2 rounded-lg">
+                    <svg class="icon text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🔗 Integration & Best Practices</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🎯 การบูรณาการ Workflow และ Sub-agents</h3>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">การใช้ Team Development Workflow ร่วมกับ Sub-agents
+                            เพื่อประสิทธิภาพสูงสุด:</p>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-emerald-400 mb-2">🔄 Integrated Workflow</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-300">
+                                <li><strong>Plan Mode:</strong> ใช้ Shift + Tab เพื่อวางแผน feature</li>
+                                <li><strong>Create Worktree:</strong> สร้าง isolated environment</li>
+                                <li><strong>Spawn Sub-agents:</strong> แบ่งงานให้ sub-agents ใน worktree</li>
+                                <li><strong>Parallel Development:</strong> ทำงานพร้อมกันในหลาย worktrees</li>
+                                <li><strong>Review & Merge:</strong> ตรวจสอบและรวมผลงาน</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">📊 Success Metrics</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-blue-400 mb-2">🎯 Team Benefits</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• ลดความขัดแย้งจาก parallel development</li>
+                                <li>• เพิ่มความเร็วในการพัฒนาด้วย AI</li>
+                                <li>• คุณภาพโค้ดดีขึ้นจาก systematic review</li>
+                                <li>• ทีมทำงานร่วมกันได้ดีขึ้น</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-purple-400 mb-2">📈 Technical Improvements</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• มองเห็นการทำงานได้ดีขึ้น</li>
+                                <li>• ความปลอดภัยเพิ่มขึ้น</li>
+                                <li>• การตรวจสอบอัตโนมัติ</li>
+                                <li>• การวิเคราะห์ประสิทธิภาพ</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">💡 Best Practices Summary</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">✅ ควรทำ</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• เริ่มด้วย Plan Mode เสมอ</li>
+                                <li>• ใช้ Git เป็น checkpoint system</li>
+                                <li>• Review งานจาก AI อย่างละเอียด</li>
+                                <li>• ใช้ worktree แยกสำหรับแต่ละ feature</li>
+                                <li>• ให้บริบทครบถ้วน (รูปภาพ, URL)</li>
+                                <li>• ใช้ sub-agents สำหรับงานที่ซับซ้อน</li>
+                                <li>• มี explicit task delegation</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-900/30 border border-red-500/30 rounded-lg p-4">
+                            <h4 class="font-semibold text-red-400 mb-2">❌ ไม่ควรทำ</h4>
+                            <ul class="text-sm space-y-1 text-gray-300">
+                                <li>• ทำงานใน branch เดียวกันพร้อมกัน</li>
+                                <li>• ยอมรับการเปลี่ยนแปลงโดยไม่ review</li>
+                                <li>• ข้ามขั้นตอน planning</li>
+                                <li>• ละเลย safety measures</li>
+                                <li>• สร้าง worktree ใน main project</li>
+                                <li>• สร้าง sub-agents มากเกินไป</li>
+                                <li>• ใช้ sub-agents สำหรับงานที่ depend กัน</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🚀 Example Commands to Try</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-cyan-400 mb-2">Basic Parallel Exploration</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-cyan-400 whitespace-pre-wrap">"Explore this project using 4 parallel tasks, each focusing on different aspects"</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">Feature Development</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-green-400 whitespace-pre-wrap">"Create a user dashboard feature using 5 parallel tasks for components, styles, tests, types, and integration"</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-purple-400 mb-2">Code Analysis</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-purple-400 whitespace-pre-wrap">"Analyze code quality using 3 parallel tasks: performance, security, and maintainability"</code>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-orange-400 mb-2">Research Tasks</h4>
+                            <div class="bg-gray-800 p-3 rounded text-xs overflow-x-auto">
+                                <code
+                                    class="text-orange-400 whitespace-pre-wrap">"Research the best database solution using 4 parallel tasks for PostgreSQL, MongoDB, Redis, and SQLite"</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Claude Code UI Integration -->
+        <section id="ui-integration">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-indigo-500/10 p-2 rounded-lg">
+                    <svg class="icon text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🌐 Claude Code UI Integration</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Remote Access & Collaboration</h3>
+                    <p class="text-gray-300 mb-4">ใช้ Claude Code UI เพื่อเข้าถึง development environment จากทุกที่:</p>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-blue-400 mb-2">🖥️ VPS Hosting</h4>
+                            <p class="text-sm text-gray-300">Global access จากทุก device</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">👥 Team Collaboration</h4>
+                            <p class="text-sm text-gray-300">Project overview และ session management</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-purple-400 mb-2">🗂️ File Management</h4>
+                            <p class="text-sm text-gray-300">Interactive file tree และ live editing</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Context Management</h3>
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-yellow-400 mb-2">📝 Project Memory</h4>
+                                <p class="text-sm text-gray-300">claude.md เป็น "สมอง" ของโปรเจกต์ที่ sync ข้ามทุก
+                                    worktrees</p>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-pink-400 mb-2">📸 Visual Context</h4>
+                                <p class="text-sm text-gray-300">Screenshots สำหรับ error visualization และ design
+                                    mockups</p>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-cyan-400 mb-2">🔗 Cross-project Context</h4>
+                                <p class="text-sm text-gray-300">External folders สำหรับ backend/frontend sync</p>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-orange-400 mb-2">🌐 Documentation Access</h4>
+                                <p class="text-sm text-gray-300">Web URLs และ Google Search integration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Advanced Hooks System -->
+        <section id="hooks-system">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-amber-500/10 p-2 rounded-lg">
+                    <svg class="icon text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">⚙️ Advanced Hooks System</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🔄 Hooks Flow & Safety</h3>
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-red-400 mb-2">🛡️ pre-tool-use</h4>
+                                <p class="text-sm text-gray-300">Block dangerous commands, rm -rf prevention</p>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-400 mb-2">📊 post-tool-use</h4>
+                                <p class="text-sm text-gray-300">Logging & recording, external notifications</p>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-blue-400 mb-2">🛑 stop Hook</h4>
+                                <p class="text-sm text-gray-300">Copy transcripts, performance analysis</p>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-purple-400 mb-2">🤖 sub-agent stop</h4>
+                                <p class="text-sm text-gray-300">Completion notification, result aggregation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">📈 Quality Assurance & Monitoring</h3>
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-orange-400 mb-2">🔄 Continuous Monitoring</h4>
+                                <ul class="text-sm space-y-1 text-gray-300">
+                                    <li>• Transcript analysis</li>
+                                    <li>• Process improvement</li>
+                                    <li>• Performance tracking</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                                <h4 class="font-semibold text-red-400 mb-2">⚠️ Error Detection</h4>
+                                <ul class="text-sm space-y-1 text-gray-300">
+                                    <li>• Auto-recovery mechanisms</li>
+                                    <li>• Alert systems</li>
+                                    <li>• Safety protocols</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Future Enhancements -->
+        <section id="future-enhancements">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-rose-500/10 p-2 rounded-lg">
+                    <svg class="icon text-rose-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🚀 Future Enhancements</h2>
+            </div>
+            <div class="space-y-8">
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🔮 คุณสมบัติที่กำลังพัฒนา</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-blue-400 mb-2">Parent-Child Agent Communication</h4>
+                            <p class="text-sm text-gray-300">Real-time communication และ monitoring ระหว่าง main agent
+                                และ sub-agents</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">Enhanced Error Handling</h4>
+                            <p class="text-sm text-gray-300">Better error recovery mechanisms และ automatic retry
+                                systems</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-purple-400 mb-2">Task Coordination</h4>
+                            <p class="text-sm text-gray-300">Improved task coordination และ state management ระหว่าง
+                                sub-agents</p>
+                        </div>
+                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                            <h4 class="font-semibold text-orange-400 mb-2">Real-time Progress Visibility</h4>
+                            <p class="text-sm text-gray-300">Live progress tracking และ visual indicators สำหรับ
+                                sub-agent activities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-2xl font-semibold text-white mb-4">🎯 The Future of AI-Powered Development</h3>
+                    <p class="text-gray-300 mb-4">
+                        Sub-agents ใน Claude Code เป็นการเปลี่ยนแปลงครั้งใหญ่สู่ true multi-agent development workflows
+                        ที่จะช่วยให้การพัฒนาซอฟต์แวร์เร็วขึ้นและมีประสิทธิภาพมากขึ้น
+                    </p>
+                    <div
+                        class="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/30 rounded-lg p-4">
+                        <p class="text-blue-300 text-center">
+                            <strong>💡 สำคัญ:</strong> การเข้าใจความสามารถและข้อจำกัดของ sub-agents จะช่วยให้คุณ
+                            เร่งกระบวนการพัฒนาและแก้ปัญหาที่ซับซ้อนได้อย่างมีประสิทธิภาพ
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 mt-16 border-t border-gray-800">
+        <p class="text-gray-500">Advanced Techniques for Claude Code Team Development</p>
+    </footer>
+
+</body>
+
+</html>
