@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Hooks: ระบบควบคุมและจัดการเวิร์กโฟลว์อัจฉริยะ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top, rgba(168, 85, 247, 0.15), transparent 60%);
+        }
+
+        .section-title {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background-color: #1f2937;
+            color: #93c5fd;
+            font-family: 'Menlo', 'Consolas', monospace;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+            display: inline-block;
+        }
+
+        .card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.1), 0 4px 6px -2px rgba(168, 85, 247, 0.05);
+        }
+
+        .navbar {
+            background-color: #1f2937;
+            border-bottom: 1px solid #374151;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .nav-link:hover {
+            background-color: #374151;
+            color: #60a5fa;
+        }
+
+        .nav-link.active {
+            background-color: #1d4ed8;
+            color: #ffffff;
+        }
+
+        .navigation-container {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(236, 72, 153, 0.05));
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            border-radius: 1.5rem;
+            margin: 3rem auto;
+            padding: 2rem;
+            max-width: 5xl;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .hook-type-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(168, 85, 247, 0.05));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .hook-type-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .code-example {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.875rem;
+        }
+
+        .highlight-line {
+            background-color: rgba(59, 130, 246, 0.1);
+            display: block;
+            margin: 0 -1rem;
+            padding: 0 1rem;
+        }
+
+        .warning-box {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-box {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .chip:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: currentColor;
+        }
+
+        .chip-purple {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a78bfa;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .chip-purple:hover {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #c4b5fd;
+        }
+
+        .chip-blue {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .chip-blue:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .chip-green {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .chip-green:hover {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #6ee7b7;
+        }
+
+        .chip-yellow {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .chip-yellow:hover {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        .chip-red {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .chip-red:hover {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .chip-cyan {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #22d3ee;
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .chip-cyan:hover {
+            background-color: rgba(6, 182, 212, 0.2);
+            color: #67e8f9;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-center">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-xl font-bold text-white">Claude Code Guide</a>
+                    <span class="text-gray-400">|</span>
+                    <div class="flex space-x-2">
+                        <a href="index.html" class="nav-link">หน้าหลัก</a>
+                        <a href="superclaude.html" class="nav-link">SuperClaude</a>
+                        <a href="advanced-techniques.html" class="nav-link">Advanced Techniques</a>
+                        <a href="claude-hooks.html" class="nav-link active">Hooks System</a>
+                        <a href="superclaude-commands.html" class="nav-link">SuperClaude Commands</a>
+                        <a href="superclaude-features.html" class="nav-link">Missing Features</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex items-center justify-center text-center px-4 py-16 hero-gradient">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-purple-500/10 text-purple-400 text-sm font-semibold px-3 py-1 rounded-full mb-4">Advanced Control System</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 section-title">Claude Code Hooks</h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                ระบบควบคุมและจัดการเวิร์กโฟลว์อัจฉริยะสำหรับทีมพัฒนา: Safety Gates, Monitoring, Notifications และ Analytics
+            </p>
+        </div>
+    </div>
+
+    <!-- Navigation Container -->
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="navigation-container">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-semibold text-white mb-2">🎯 Hook Types Overview</h3>
+                <p class="text-gray-400">คลิกเพื่อดูรายละเอียดของแต่ละ Hook Type</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-4">
+                <a href="#pre-tool" class="chip chip-purple">
+                    <span>🛡️</span>
+                    <span>Pre-tool Use</span>
+                </a>
+                <a href="#post-tool" class="chip chip-blue">
+                    <span>📊</span>
+                    <span>Post-tool Use</span>
+                </a>
+                <a href="#notification" class="chip chip-yellow">
+                    <span>🔔</span>
+                    <span>Notification</span>
+                </a>
+                <a href="#stop" class="chip chip-green">
+                    <span>🏁</span>
+                    <span>Stop</span>
+                </a>
+                <a href="#subagent" class="chip chip-cyan">
+                    <span>🤖</span>
+                    <span>Sub-agent Stop</span>
+                </a>
+                <a href="#configuration" class="chip chip-red">
+                    <span>⚙️</span>
+                    <span>Configuration</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-12 md:py-20 space-y-16">
+
+        <!-- Introduction -->
+        <section>
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🎯 Hook System Overview</h2>
+            </div>
+            <div class="card">
+                <p class="mb-4">Claude Code Hooks เป็นระบบที่ช่วยให้ทีมพัฒนาสามารถควบคุม, ตรวจสอบ, และปรับแต่งพฤติกรรมของ Claude Code ได้อย่างละเอียด โดยแบ่งออกเป็น 5 ประเภทหลัก:</p>
+                <ul class="space-y-2 list-disc list-inside">
+                    <li><strong class="text-purple-400">Pre-tool use:</strong> Safety gate ก่อนรันคำสั่ง</li>
+                    <li><strong class="text-blue-400">Post-tool use:</strong> Logging และ monitoring หลังรันคำสั่ง</li>
+                    <li><strong class="text-yellow-400">Notification:</strong> Real-time alerts เมื่อต้องการ input</li>
+                    <li><strong class="text-green-400">Stop:</strong> Session analysis และ report generation</li>
+                    <li><strong class="text-cyan-400">Sub-agent stop:</strong> Parallel task monitoring</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Pre-tool Use Hooks -->
+        <section id="pre-tool">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🛡️ Pre-tool Use Hooks (Safety Gates)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Dangerous Command Prevention</h3>
+                    <p class="text-gray-300 mb-4">ป้องกันคำสั่งอันตรายก่อนที่จะถูกรัน เช่น rm -rf, DROP DATABASE, หรือคำสั่งที่ส่งผลกระทบต่อ production</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/safety_gate.py
+import sys
+import json
+import re
+import logging
+
+DANGEROUS_COMMANDS = [
+    r'rm\s+-rf\s+/',
+    r'sudo\s+rm',
+    r'DROP\s+DATABASE',
+    r'DELETE\s+FROM\s+\w+\s*;?\s*$',
+    r'truncate\s+table',
+    r'npm\s+publish',
+    r'git\s+push\s+--force',
+    r'docker\s+system\s+prune\s+-a',
+    r'kubectl\s+delete\s+namespace',
+    r'terraform\s+destroy'
+]
+
+def check_safety(tool_name, tool_input):
+    """Safety checks before tool execution"""
+    
+    command = ""
+    if tool_name == "execute_command":
+        command = tool_input.get("command", "")
+    
+    # Check for dangerous commands
+    for pattern in DANGEROUS_COMMANDS:
+        if re.search(pattern, command, re.IGNORECASE):
+            <span class="highlight-line">            return {
+                "allow": False,
+                "reason": f"Blocked dangerous command pattern: {pattern}",
+                "severity": "CRITICAL"
+            }</span>
+    
+    return {"allow": True}</code></pre>
+                    </div>
+
+                    <div class="warning-box">
+                        <p class="text-red-400 font-semibold mb-2">⚠️ Important Safety Rules:</p>
+                        <ul class="space-y-1 text-sm list-disc list-inside">
+                            <li>Always require explicit confirmation for production operations</li>
+                            <li>Block force push to main/master branches</li>
+                            <li>Prevent deletion of critical namespaces or databases</li>
+                            <li>Monitor for potential security vulnerabilities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Code Quality Gates</h3>
+                    <p class="text-gray-300 mb-4">ตรวจสอบคุณภาพโค้ดก่อนเขียนไฟล์ เช่น syntax check, security patterns, และ coding standards</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/quality_gate.py
+import ast
+import subprocess
+
+def check_code_quality(tool_name, tool_input):
+    """Pre-execution code quality checks"""
+    
+    if tool_name != "write_file":
+        return {"allow": True}
+    
+    file_path = tool_input.get("path", "")
+    content = tool_input.get("content", "")
+    
+    # Python syntax check
+    if file_path.endswith('.py'):
+        try:
+            ast.parse(content)
+        except SyntaxError as e:
+            <span class="highlight-line">            return {
+                "allow": False,
+                "reason": f"Python syntax error: {e}",
+                "line": e.lineno
+            }</span>
+    
+    # Detect hardcoded secrets
+    secret_patterns = [
+        r'password\s*=\s*["\'][^"\']+["\']',
+        r'api_key\s*=\s*["\'][^"\']+["\']',
+        r'secret\s*=\s*["\'][^"\']+["\']'
+    ]
+    
+    for pattern in secret_patterns:
+        if re.search(pattern, content, re.IGNORECASE):
+            <span class="highlight-line">            return {
+                "allow": False,
+                "reason": "Hardcoded secret detected - use environment variables",
+                "severity": "SECURITY"
+            }</span>
+    
+    return {"allow": True}</code></pre>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <p class="text-green-400 font-semibold mb-2">✅ Best Practices:</p>
+                    <ul class="space-y-1 text-sm list-disc list-inside">
+                        <li>Implement multiple safety layers</li>
+                        <li>Log all blocked operations for audit</li>
+                        <li>Provide clear error messages</li>
+                        <li>Allow bypass with proper authorization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Post-tool Use Hooks -->
+        <section id="post-tool">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">📊 Post-tool Use Hooks (Monitoring & Logging)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Comprehensive Activity Logging</h3>
+                    <p class="text-gray-300 mb-4">บันทึกทุกการใช้งาน tool พร้อมข้อมูลละเอียดสำหรับการวิเคราะห์และ audit</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/activity_logger.py
+import json
+import datetime
+import os
+from pathlib import Path
+
+LOG_DIR = Path("logs/claude_activity")
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+def log_activity(tool_name, tool_input, tool_output, execution_time):
+    """Log all Claude Code tool usage"""
+    
+    timestamp = datetime.datetime.now().isoformat()
+    session_id = os.environ.get("CLAUDE_SESSION_ID", "unknown")
+    
+    activity_log = {
+        "timestamp": timestamp,
+        "session_id": session_id,
+        "tool_name": tool_name,
+        "tool_input": tool_input,
+        "execution_time_ms": execution_time,
+        "success": tool_output.get("success", True),
+        "output_size": len(str(tool_output)),
+        "git_branch": get_current_branch(),
+        "working_directory": os.getcwd()
+    }
+    
+    # Log to daily file
+    log_file = LOG_DIR / f"activity_{datetime.date.today().isoformat()}.jsonl"
+    <span class="highlight-line">    with open(log_file, "a") as f:
+        f.write(json.dumps(activity_log) + "\n")</span>
+    
+    # Alert on suspicious patterns
+    check_suspicious_activity(activity_log)</code></pre>
+                    </div>
+                </div>
+
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Performance Monitoring</h3>
+                    <p class="text-gray-300 mb-4">ติดตามประสิทธิภาพของระบบและแจ้งเตือนเมื่อพบปัญหา</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/performance_monitor.py
+import psutil
+import json
+import time
+
+def monitor_performance(tool_name, execution_time):
+    """Monitor system performance during tool execution"""
+    
+    performance_data = {
+        "tool_name": tool_name,
+        "execution_time_ms": execution_time,
+        "cpu_usage": psutil.cpu_percent(),
+        "memory_usage": psutil.virtual_memory().percent,
+        "disk_usage": psutil.disk_usage('/').percent,
+        "timestamp": time.time()
+    }
+    
+    # Alert on resource issues
+    <span class="highlight-line">    if performance_data["memory_usage"] > 90:
+        send_alert("HIGH_MEMORY", f"Memory usage: {performance_data['memory_usage']}%")</span>
+    
+    <span class="highlight-line">    if execution_time > 30000:  # 30 seconds
+        send_alert("SLOW_EXECUTION", f"Tool {tool_name} took {execution_time/1000}s")</span></code></pre>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <p class="text-blue-400 font-semibold mb-2">💡 Monitoring Benefits:</p>
+                    <ul class="space-y-1 text-sm list-disc list-inside">
+                        <li>Track developer productivity metrics</li>
+                        <li>Identify performance bottlenecks</li>
+                        <li>Detect unusual activity patterns</li>
+                        <li>Generate usage analytics and reports</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notification Hooks -->
+        <section id="notification">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-yellow-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🔔 Notification Hooks (Real-time Alerts)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Team Communication Integration</h3>
+                    <p class="text-gray-300 mb-4">ส่งการแจ้งเตือนไปยังช่องทางต่างๆ เมื่อ Claude Code ต้องการ input หรือมีเหตุการณ์สำคัญ</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/team_notifications.py
+import requests
+import json
+import os
+
+def send_team_notification(notification_type, context):
+    """Send notifications to team communication channels"""
+    
+    if notification_type == "input_required":
+        <span class="highlight-line">        send_slack_notification(
+            channel="#claude-code-alerts",
+            message=f"🤖 Claude Code needs input in {context['project']}",
+            context=context
+        )</span>
+    
+    elif notification_type == "long_running_task":
+        <span class="highlight-line">        send_slack_notification(
+            channel="#development",
+            message=f"⏰ Long-running Claude task in progress: {context['task']}",
+            context=context
+        )</span>
+
+def send_slack_notification(channel, message, context):
+    """Send Slack notification"""
+    webhook_url = os.environ.get("SLACK_WEBHOOK_URL")
+    
+    payload = {
+        "channel": channel,
+        "text": message,
+        "attachments": [{
+            "color": "warning",
+            "fields": [
+                {"title": "Project", "value": context.get("project", "Unknown"), "short": True},
+                {"title": "Session ID", "value": context.get("session_id", "Unknown"), "short": True},
+                {"title": "Branch", "value": context.get("branch", "Unknown"), "short": True}
+            ]
+        }]
+    }
+    
+    requests.post(webhook_url, json=payload)</code></pre>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                    <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">📱 Mobile Push Notifications</h4>
+                        <p class="text-sm text-gray-300">ส่งการแจ้งเตือนไปยังมือถือผ่าน Pushover, Firebase, หรือ services อื่นๆ</p>
+                    </div>
+                    <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">📧 Email Alerts</h4>
+                        <p class="text-sm text-gray-300">ส่ง email สำหรับเหตุการณ์สำคัญหรือ critical issues</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stop Hooks -->
+        <section id="stop">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-green-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🏁 Stop Hooks (Session Analysis)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Comprehensive Session Analysis</h3>
+                    <p class="text-gray-300 mb-4">วิเคราะห์ผลการทำงานของ Claude Code session และสร้างรายงานสรุป</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/session_analyzer.py
+def analyze_session(session_data):
+    """Comprehensive analysis of completed Claude session"""
+    
+    session_summary = {
+        "session_id": session_data["session_id"],
+        "duration_minutes": session_data["duration"] / 60,
+        "tools_used": count_tools_used(session_data["transcript"]),
+        "files_modified": get_modified_files(session_data),
+        "git_commits": count_git_commits(session_data),
+        "code_quality_score": calculate_quality_score(session_data),
+        "productivity_metrics": calculate_productivity(session_data),
+        "errors_encountered": count_errors(session_data),
+        <span class="highlight-line">        "recommendations": generate_recommendations(session_data)</span>
+    }
+    
+    # Save session analysis
+    save_session_analysis(session_summary)
+    
+    # Generate team report
+    generate_team_report(session_summary)
+    
+    # Update developer metrics
+    update_developer_metrics(session_summary)
+
+def generate_recommendations(session_data):
+    """Generate improvement recommendations"""
+    recommendations = []
+    
+    <span class="highlight-line">    if count_errors(session_data) > 10:
+        recommendations.append("Consider breaking down tasks into smaller chunks")</span>
+    
+    <span class="highlight-line">    if session_data["duration"] > 7200:  # 2 hours
+        recommendations.append("Long session detected - consider regular breaks")</span>
+    
+    <span class="highlight-line">    if count_git_commits(session_data) == 0:
+        recommendations.append("No commits made - remember to commit progress regularly")</span>
+    
+    return recommendations</code></pre>
+                    </div>
+                </div>
+
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Knowledge Base Updates</h3>
+                    <p class="text-gray-300 mb-4">สกัดความรู้และ patterns จาก session เพื่ออัพเดต knowledge base ของทีม</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/knowledge_updater.py
+def update_knowledge_base(session_data):
+    """Extract learnings and update team knowledge base"""
+    
+    # Extract patterns and solutions
+    patterns = extract_solution_patterns(session_data)
+    
+    # Update team wiki/documentation
+    for pattern in patterns:
+        <span class="highlight-line">        update_documentation(pattern)</span>
+    
+    # Create searchable knowledge entries
+    <span class="highlight-line">    create_knowledge_entries(patterns)</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sub-agent Stop Hooks -->
+        <section id="subagent">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-cyan-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🤖 Sub-agent Stop Hooks (Parallel Task Monitoring)</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Sub-agent Coordination</h3>
+                    <p class="text-gray-300 mb-4">จัดการและประสานงานระหว่าง sub-agents ที่ทำงานแบบ parallel</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/subagent_coordinator.py
+def handle_subagent_completion(subagent_id, result, parent_session_id):
+    """Handle sub-agent task completion"""
+    
+    completion_data = {
+        "subagent_id": subagent_id,
+        "parent_session": parent_session_id,
+        "completion_time": time.time(),
+        "success": result.get("success", False),
+        "output_summary": summarize_output(result),
+        "performance_metrics": extract_performance_metrics(result)
+    }
+    
+    # Log sub-agent completion
+    log_subagent_completion(completion_data)
+    
+    # Check if all sub-agents completed
+    <span class="highlight-line">    if all_subagents_completed(parent_session_id):
+        trigger_aggregation_analysis(parent_session_id)</span>
+    
+    # Update progress tracking
+    update_progress_dashboard(parent_session_id, completion_data)</code></pre>
+                    </div>
+                </div>
+
+                <div class="hook-type-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Real-time Progress Dashboard</h3>
+                    <p class="text-gray-300 mb-4">อัพเดต dashboard แบบ real-time สำหรับติดตามความคืบหน้าของ sub-agents</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400"># hooks/progress_dashboard.py
+def update_real_time_dashboard(session_id, update_data):
+    """Update real-time progress dashboard"""
+    
+    dashboard_update = {
+        "session_id": session_id,
+        "timestamp": time.time(),
+        <span class="highlight-line">        "active_subagents": get_active_subagent_count(session_id),
+        "completed_tasks": get_completed_task_count(session_id),
+        "current_operations": get_current_operations(session_id),</span>
+        "resource_usage": get_resource_usage(),
+        "estimated_completion": estimate_completion_time(session_id)
+    }
+    
+    # Send to WebSocket dashboard
+    send_dashboard_update(dashboard_update)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuration -->
+        <section id="configuration">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-red-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">⚙️ Hook Configuration</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Settings Configuration</h3>
+                    <p class="text-gray-300 mb-4">ตัวอย่างการตั้งค่า hooks ในไฟล์ settings.json</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-green-400">{
+  "hooks": {
+    "pre-tool": {
+      "enabled": true,
+      "scripts": [
+        "hooks/pre-tool/safety_gate.py",
+        "hooks/pre-tool/quality_gate.py",
+        "hooks/pre-tool/resource_check.py"
+      ],
+      "timeout_seconds": 30,
+      "fail_on_error": true
+    },
+    "post-tool": {
+      "enabled": true,
+      "scripts": [
+        "hooks/post-tool/activity_logger.py",
+        "hooks/post-tool/performance_monitor.py",
+        "hooks/post-tool/git_tracker.py"
+      ],
+      "async": true
+    },
+    "notification": {
+      "enabled": true,
+      "script": "hooks/notification/team_notifications.py",
+      "channels": ["slack", "email", "mobile"]
+    },
+    "stop": {
+      "enabled": true,
+      "scripts": [
+        "hooks/stop/session_analyzer.py",
+        "hooks/stop/knowledge_updater.py",
+        "hooks/stop/report_generator.py"
+      ],
+      "generate_reports": true,
+      "backup_transcripts": true
+    },
+    "subagent-stop": {
+      "enabled": true,
+      "script": "hooks/subagent-stop/subagent_coordinator.py",
+      "real_time_updates": true
+    }
+  },
+  "team_settings": {
+    "require_approval_for_production": true,
+    "max_session_duration_hours": 4,
+    "auto_commit_threshold_lines": 100,
+    "notification_preferences": {
+      "critical_alerts": ["slack", "email", "mobile"],
+      "info_alerts": ["slack"],
+      "progress_updates": ["dashboard"]
+    }
+  }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Project Structure</h3>
+                    <p class="text-gray-300 mb-4">โครงสร้างไฟล์และโฟลเดอร์สำหรับ hooks system</p>
+                    
+                    <div class="code-example">
+                        <pre><code class="text-gray-400">project/
+├── .claude/
+│   ├── settings.json
+│   └── hooks/
+│       ├── pre-tool/
+│       │   ├── safety_gate.py
+│       │   ├── quality_gate.py
+│       │   └── resource_check.py
+│       ├── post-tool/
+│       │   ├── activity_logger.py
+│       │   ├── performance_monitor.py
+│       │   └── git_tracker.py
+│       ├── notification/
+│       │   ├── team_notifications.py
+│       │   └── mobile_notifications.py
+│       ├── stop/
+│       │   ├── session_analyzer.py
+│       │   ├── knowledge_updater.py
+│       │   └── report_generator.py
+│       └── subagent-stop/
+│           ├── subagent_coordinator.py
+│           └── progress_dashboard.py
+├── logs/
+│   ├── claude_activity/
+│   ├── performance.jsonl
+│   ├── git_operations.jsonl
+│   └── session_analysis/
+└── config/
+    ├── notification_config.json
+    ├── safety_rules.json
+    └── team_settings.json</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section>
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-gradient-to-r from-purple-500/10 to-blue-500/10 p-2 rounded-lg">
+                    <svg class="w-6 h-6 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">📊 Benefits for Team Leadership</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-3">🛡️ Safety & Risk Management</h3>
+                    <ul class="space-y-2 list-disc list-inside text-gray-300">
+                        <li>Prevent dangerous operations</li>
+                        <li>Production safety gates</li>
+                        <li>Code quality enforcement</li>
+                        <li>Security vulnerability prevention</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-3">👀 Visibility & Monitoring</h3>
+                    <ul class="space-y-2 list-disc list-inside text-gray-300">
+                        <li>Real-time activity tracking</li>
+                        <li>Performance monitoring</li>
+                        <li>Progress dashboards</li>
+                        <li>Resource utilization</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-3">🤝 Team Collaboration</h3>
+                    <ul class="space-y-2 list-disc list-inside text-gray-300">
+                        <li>Instant notifications</li>
+                        <li>Progress sharing</li>
+                        <li>Knowledge capture</li>
+                        <li>Best practice enforcement</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-3">📈 Productivity Analytics</h3>
+                    <ul class="space-y-2 list-disc list-inside text-gray-300">
+                        <li>Session analysis</li>
+                        <li>Developer metrics</li>
+                        <li>Efficiency tracking</li>
+                        <li>Continuous improvement</li>
+                    </ul>
+                </div>
+
+                <div class="card md:col-span-2">
+                    <h3 class="text-xl font-semibold text-white mb-3">📋 Compliance & Audit</h3>
+                    <ul class="space-y-2 list-disc list-inside text-gray-300">
+                        <li>Complete activity logs for audit trails</li>
+                        <li>Change tracking with full context</li>
+                        <li>Approval workflows for sensitive operations</li>
+                        <li>Regulatory compliance support</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section>
+            <div class="card bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-purple-500/30">
+                <h3 class="text-2xl font-bold text-white mb-4 text-center">🎯 Summary</h3>
+                <p class="text-lg text-center mb-6">
+                    Claude Code Hooks System แปลง Claude Code จากเครื่องมือส่วนบุคคลให้กลายเป็น
+                    <strong class="text-purple-400">Enterprise-grade collaboration platform</strong>
+                    พร้อมระบบความปลอดภัย การตรวจสอบ และการจัดการเวิร์กโฟลว์ระดับมืออาชีพ
+                </p>
+                <div class="text-center">
+                    <a href="index.html" class="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to Main Guide
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 mt-16 border-t border-gray-800">
+        <p class="text-gray-500">Claude Code Hooks System - Enterprise Control & Management</p>
+    </footer>
+
+</body>
+
+</html>
