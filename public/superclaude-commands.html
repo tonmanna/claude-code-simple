@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperClaude Commands Guide - คู่มือคำสั่ง SuperClaude</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.15), transparent 60%);
+        }
+
+        .section-title {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background-color: #1f2937;
+            color: #93c5fd;
+            font-family: 'Menlo', 'Consolas', monospace;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+            display: inline-block;
+        }
+
+        .card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+        }
+
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            stroke-width: 1.5;
+        }
+
+        .navbar {
+            background-color: #1f2937;
+            border-bottom: 1px solid #374151;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .nav-link:hover {
+            background-color: #374151;
+            color: #60a5fa;
+        }
+
+        .nav-link.active {
+            background-color: #1d4ed8;
+            color: #ffffff;
+        }
+
+        .navigation-container {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(168, 85, 247, 0.05));
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            border-radius: 1.5rem;
+            margin: 3rem auto;
+            padding: 2rem;
+            max-width: 5xl;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .navigation-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .navigation-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .navigation-subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .anchor-chips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            justify-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .anchor-chips {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .anchor-chips {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .chip:hover::before {
+            left: 100%;
+        }
+
+        .chip:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: currentColor;
+        }
+
+        .chip:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .chip-architecture {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .chip-architecture:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .chip-development {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .chip-development:hover {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #6ee7b7;
+        }
+
+        .chip-quality {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .chip-quality:hover {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        .chip-deployment {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .chip-deployment:hover {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .chip-team {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a78bfa;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .chip-team:hover {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #c4b5fd;
+        }
+
+        .chip-examples {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .chip-examples:hover {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .command-example {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            overflow-x: auto;
+        }
+
+        .command-example .command {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .command-example .comment {
+            color: #6b7280;
+        }
+
+        .command-mapping-table {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .command-mapping-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .command-mapping-table th,
+        .command-mapping-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #374151;
+        }
+
+        .command-mapping-table th {
+            background-color: #374151;
+            color: #f3f4f6;
+            font-weight: 600;
+        }
+
+        .command-mapping-table td {
+            color: #d1d5db;
+        }
+
+        .command-mapping-table .command-cell {
+            color: #60a5fa;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.875rem;
+        }
+
+        .command-mapping-table .flag-cell {
+            color: #10b981;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-center">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-xl font-bold text-white">Claude Code Guide</a>
+                    <span class="text-gray-400">|</span>
+                    <div class="flex space-x-2">
+                        <a href="index.html" class="nav-link">หน้าหลัก</a>
+                        <a href="superclaude.html" class="nav-link">SuperClaude</a>
+                        <a href="advanced-techniques.html" class="nav-link">Advanced Techniques</a>
+                        <a href="superclaude-commands.html" class="nav-link active">SuperClaude Commands</a>
+                        <a href="superclaude-features.html" class="nav-link">Missing Features</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex items-center justify-center text-center px-4 py-16 hero-gradient">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-blue-500/10 text-blue-400 text-sm font-semibold px-3 py-1 rounded-full mb-4">
+                SuperClaude Commands
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 section-title">
+                SuperClaude Commands Guide
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                คู่มือคำสั่ง SuperClaude สำหรับนักพัฒนาระดับมืออาชีพ
+                <br>
+                <span class="text-blue-400">Professional Development Team Commands</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Creative Navigation Container -->
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="navigation-container">
+            <div class="navigation-header">
+                <h3 class="navigation-title">
+                    🎯 <span>SuperClaude Commands</span> 📋
+                </h3>
+                <p class="navigation-subtitle">คลิกเพื่อไปยังหัวข้อที่สนใจ</p>
+            </div>
+            
+            <div class="anchor-chips">
+                <a href="#architecture" class="chip chip-architecture">
+                    <span>🏗️</span>
+                    <span>Architecture & Design</span>
+                </a>
+                <a href="#development" class="chip chip-development">
+                    <span>🚀</span>
+                    <span>Development Workflow</span>
+                </a>
+                <a href="#quality" class="chip chip-quality">
+                    <span>🔍</span>
+                    <span>Quality Assurance</span>
+                </a>
+                <a href="#deployment" class="chip chip-deployment">
+                    <span>🚀</span>
+                    <span>Deployment & Operations</span>
+                </a>
+                <a href="#team" class="chip chip-team">
+                    <span>👥</span>
+                    <span>Team & Documentation</span>
+                </a>
+                <a href="#examples" class="chip chip-examples">
+                    <span>🎯</span>
+                    <span>Practical Examples</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-12 md:py-20 space-y-16">
+
+        <!-- Quick Reference -->
+        <section id="quick-reference">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="icon text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🎯 Quick Reference: SuperClaude vs Senior Dev Commands</h2>
+            </div>
+            
+            <div class="card">
+                <h3 class="text-xl font-semibold text-white mb-4">Command Mapping Overview</h3>
+                <p class="text-gray-300 mb-4">
+                    แผนที่เปรียบเทียบคำสั่ง SuperClaude กับงานของนักพัฒนาระดับสูง พร้อมตัวอย่างการใช้งานจริง
+                </p>
+                
+                <div class="command-mapping-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Senior Dev Task</th>
+                                <th>SuperClaude Command</th>
+                                <th>Key Flags</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Architecture Review</td>
+                                <td class="command-cell">/analyze --architecture</td>
+                                <td class="flag-cell">--seq --persona-architect</td>
+                                <td>System design assessment</td>
+                            </tr>
+                            <tr>
+                                <td>Code Review</td>
+                                <td class="command-cell">/review</td>
+                                <td class="flag-cell">--quality --evidence</td>
+                                <td>AI-powered code review</td>
+                            </tr>
+                            <tr>
+                                <td>Feature Development</td>
+                                <td class="command-cell">/build --feature</td>
+                                <td class="flag-cell">--tdd --magic</td>
+                                <td>Build features with TDD</td>
+                            </tr>
+                            <tr>
+                                <td>Bug Fixing</td>
+                                <td class="command-cell">/troubleshoot</td>
+                                <td class="flag-cell">--investigate --fix</td>
+                                <td>Systematic debugging</td>
+                            </tr>
+                            <tr>
+                                <td>Security Audit</td>
+                                <td class="command-cell">/scan --security</td>
+                                <td class="flag-cell">--owasp --deps</td>
+                                <td>Security vulnerability scanning</td>
+                            </tr>
+                            <tr>
+                                <td>Performance Optimization</td>
+                                <td class="command-cell">/improve --performance</td>
+                                <td class="flag-cell">--iterate --threshold</td>
+                                <td>Performance improvements</td>
+                            </tr>
+                            <tr>
+                                <td>Deployment</td>
+                                <td class="command-cell">/deploy</td>
+                                <td class="flag-cell">--env --plan --validate</td>
+                                <td>Safe deployment with validation</td>
+                            </tr>
+                            <tr>
+                                <td>Documentation</td>
+                                <td class="command-cell">/document</td>
+                                <td class="flag-cell">--api --technical</td>
+                                <td>Generate documentation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture & Design -->
+        <section id="architecture">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="icon text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🏗️ Architecture & Design</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Architecture Review</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/architecture:review</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Full architecture analysis with expert persona</div>
+                            <div class="command">/analyze --architecture --seq --persona-architect</div>
+                            <br>
+                            <div class="comment"># With introspection for self-aware analysis</div>
+                            <div class="command">/analyze --architecture --introspect --think-hard</div>
+                            <br>
+                            <div class="comment"># Generate visual diagrams</div>
+                            <div class="command">/analyze --architecture --visual --c7</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">System Design</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/architecture:design</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Design API with Domain-Driven Design</div>
+                            <div class="command">/design --api --ddd --openapi --seq</div>
+                            <br>
+                            <div class="comment"># Microservices architecture</div>
+                            <div class="command">/design --microservices --event-driven --persona-architect</div>
+                            <br>
+                            <div class="comment"># With maximum thinking depth</div>
+                            <div class="command">/design --api --bounded-context --ultrathink</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Smart Refactoring</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/architecture:refactor</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Refactor with quality focus</div>
+                            <div class="command">/improve --quality --refactor --strict</div>
+                            <br>
+                            <div class="comment"># With refactoring persona</div>
+                            <div class="command">/improve --quality --iterate --persona-refactorer</div>
+                            <br>
+                            <div class="comment"># Deep analysis before refactoring</div>
+                            <div class="command">/analyze --code --deep --think-hard</div>
+                            <div class="command">/improve --quality --refactor --evidence</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Workflow -->
+        <section id="development">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-green-500/10 p-2 rounded-lg">
+                    <svg class="icon text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🚀 Development Workflow</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Feature Development</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/development:feature</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Build React feature with Magic UI and TDD</div>
+                            <div class="command">/build --feature "user authentication" --react --magic --tdd</div>
+                            <br>
+                            <div class="comment"># Full-stack feature with parallel agents</div>
+                            <div class="command">/spawn --task "frontend components" --parallel</div>
+                            <div class="command">/spawn --task "backend API" --parallel</div>
+                            <div class="command">/build --fullstack --tdd --coverage</div>
+                            <br>
+                            <div class="comment"># With frontend persona</div>
+                            <div class="command">/build --react --magic --persona-frontend --watch</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Bug Fixing</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/development:bugfix</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Investigate and fix bug</div>
+                            <div class="command">/troubleshoot --investigate --prod --fix</div>
+                            <br>
+                            <div class="comment"># With root cause analysis</div>
+                            <div class="command">/troubleshoot --five-whys --seq --persona-analyzer</div>
+                            <br>
+                            <div class="comment"># Emergency hotfix</div>
+                            <div class="command">/troubleshoot --prod --hotfix --validate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Test-Driven Development</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/development:tdd</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># TDD workflow with coverage</div>
+                            <div class="command">/build --feature "payment system" --tdd --coverage</div>
+                            <br>
+                            <div class="comment"># With comprehensive testing</div>
+                            <div class="command">/test --unit --integration --e2e --pup</div>
+                            <br>
+                            <div class="comment"># Mutation testing for quality</div>
+                            <div class="command">/test --mutation --strict --persona-qa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quality Assurance -->
+        <section id="quality">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-yellow-500/10 p-2 rounded-lg">
+                    <svg class="icon text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🔍 Quality Assurance</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Code Review</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/quality:review</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Comprehensive code review</div>
+                            <div class="command">/review --files src/ --quality --evidence</div>
+                            <br>
+                            <div class="comment"># Review specific PR</div>
+                            <div class="command">/review --pr 123 --all --interactive</div>
+                            <br>
+                            <div class="comment"># With QA persona</div>
+                            <div class="command">/review --commit HEAD --persona-qa --think</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Security Audit</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/quality:security</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Full security scan</div>
+                            <div class="command">/scan --security --owasp --deps --persona-security</div>
+                            <br>
+                            <div class="comment"># With forensic analysis</div>
+                            <div class="command">/analyze --security --forensic --seq</div>
+                            <br>
+                            <div class="comment"># Validate and fix security issues</div>
+                            <div class="command">/scan --security --validate --fix</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Performance Optimization</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/quality:performance</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Deep performance profiling</div>
+                            <div class="command">/analyze --profile --deep --persona-performance</div>
+                            <br>
+                            <div class="comment"># Iterative optimization</div>
+                            <div class="command">/improve --performance --iterate --threshold 95%</div>
+                            <br>
+                            <div class="comment"># With browser automation for testing</div>
+                            <div class="command">/improve --performance --cache --pup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deployment & Operations -->
+        <section id="deployment">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-red-500/10 p-2 rounded-lg">
+                    <svg class="icon text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🚀 Deployment & Operations</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Smart Deployment</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/deployment:deploy</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Production deployment with validation</div>
+                            <div class="command">/deploy --env prod --plan --validate</div>
+                            <br>
+                            <div class="comment"># Canary deployment with monitoring</div>
+                            <div class="command">/deploy --env prod --canary --monitor</div>
+                            <br>
+                            <div class="comment"># Staging deployment first</div>
+                            <div class="command">/deploy --env staging --validate --seq</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Emergency Rollback</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/deployment:rollback</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Emergency rollback</div>
+                            <div class="command">/deploy --rollback --env prod</div>
+                            <br>
+                            <div class="comment"># With investigation</div>
+                            <div class="command">/troubleshoot --prod --investigate</div>
+                            <div class="command">/deploy --rollback --checkpoint "last-stable"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team & Documentation -->
+        <section id="team">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="icon text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">👥 Team & Documentation</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Technical Documentation</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/team:document</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Generate API documentation</div>
+                            <div class="command">/document --api --interactive --examples</div>
+                            <br>
+                            <div class="comment"># User guides with visuals</div>
+                            <div class="command">/document --user --visual --multilingual</div>
+                            <br>
+                            <div class="comment"># With documentation persona</div>
+                            <div class="command">/explain --api --examples --c7 --persona-mentor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Code Mentoring</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-300"><strong>Senior Dev Command:</strong> <code class="code-block">/team:mentor</code></p>
+                        <p class="text-gray-300"><strong>SuperClaude Equivalent:</strong></p>
+                        <div class="command-example">
+                            <div class="comment"># Explain complex concepts</div>
+                            <div class="command">/explain --depth expert --visual --persona-mentor</div>
+                            <br>
+                            <div class="comment"># Beginner-friendly explanations</div>
+                            <div class="command">/explain --depth beginner --examples --seq</div>
+                            <br>
+                            <div class="comment"># Architecture documentation</div>
+                            <div class="command">/explain --architecture --tutorial --think</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Examples -->
+        <section id="examples">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-green-500/10 p-2 rounded-lg">
+                    <svg class="icon text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🎯 Practical Examples</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Example 1: Complete Feature Development</h3>
+                    <div class="command-example">
+                        <div class="comment"># 1. Design the feature</div>
+                        <div class="command">/design --api --ddd --persona-architect</div>
+                        <br>
+                        <div class="comment"># 2. Build with TDD</div>
+                        <div class="command">/build --feature "user profile system" --react --magic --tdd</div>
+                        <br>
+                        <div class="comment"># 3. Test comprehensively</div>
+                        <div class="command">/test --coverage --e2e --pup</div>
+                        <br>
+                        <div class="comment"># 4. Security check</div>
+                        <div class="command">/scan --security --validate --persona-security</div>
+                        <br>
+                        <div class="comment"># 5. Deploy to staging</div>
+                        <div class="command">/deploy --env staging --validate</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Example 2: Production Bug Investigation</h3>
+                    <div class="command-example">
+                        <div class="comment"># 1. Investigate the issue</div>
+                        <div class="command">/troubleshoot --prod --investigate --think-hard</div>
+                        <br>
+                        <div class="comment"># 2. Analyze with sequential thinking</div>
+                        <div class="command">/troubleshoot --prod --five-whys --seq</div>
+                        <br>
+                        <div class="comment"># 3. Implement fix</div>
+                        <div class="command">/troubleshoot --fix --validate</div>
+                        <br>
+                        <div class="comment"># 4. Test the fix</div>
+                        <div class="command">/test --regression --coverage</div>
+                        <br>
+                        <div class="comment"># 5. Deploy hotfix</div>
+                        <div class="command">/deploy --env prod --hotfix --monitor</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">Example 3: Architecture Review and Refactoring</h3>
+                    <div class="command-example">
+                        <div class="comment"># 1. Review current architecture</div>
+                        <div class="command">/analyze --architecture --seq --persona-architect</div>
+                        <br>
+                        <div class="comment"># 2. Load project context</div>
+                        <div class="command">/load --depth deep --patterns --seq</div>
+                        <br>
+                        <div class="comment"># 3. Plan refactoring</div>
+                        <div class="command">/improve --quality --plan --think-hard</div>
+                        <br>
+                        <div class="comment"># 4. Execute refactoring</div>
+                        <div class="command">/improve --quality --refactor --strict</div>
+                        <br>
+                        <div class="comment"># 5. Validate changes</div>
+                        <div class="command">/test --integration --coverage</div>
+                        <div class="command">/scan --validate --quality</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Tips -->
+        <section id="advanced-tips">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-indigo-500/10 p-2 rounded-lg">
+                    <svg class="icon text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🔧 Advanced Tips</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">1. Combining Personas</h3>
+                    <div class="command-example">
+                        <div class="comment"># Security-focused frontend development</div>
+                        <div class="command">/build --react --magic --persona-frontend --persona-security</div>
+                        <br>
+                        <div class="comment"># Performance-oriented backend review</div>
+                        <div class="command">/review --files api/ --persona-backend --persona-performance</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">2. Token Optimization</h3>
+                    <div class="command-example">
+                        <div class="comment"># Use UltraCompressed mode for large analyses</div>
+                        <div class="command">/analyze --architecture --uc</div>
+                        <br>
+                        <div class="comment"># Disable MCP for native-only operations</div>
+                        <div class="command">/scan --security --no-mcp</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">3. Parallel Task Execution</h3>
+                    <div class="command-example">
+                        <div class="comment"># Spawn multiple agents for complex features</div>
+                        <div class="command">/spawn --task "frontend implementation" --parallel</div>
+                        <div class="command">/spawn --task "backend API" --parallel</div>
+                        <div class="command">/spawn --task "database migrations" --parallel</div>
+                        <div class="command">/spawn --task "test suite" --parallel</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">4. Progressive Thinking</h3>
+                    <div class="command-example">
+                        <div class="comment"># Standard analysis</div>
+                        <div class="command">/analyze --think</div>
+                        <br>
+                        <div class="comment"># Deep architectural analysis</div>
+                        <div class="command">/design --think-hard</div>
+                        <br>
+                        <div class="comment"># Maximum depth for critical systems</div>
+                        <div class="command">/troubleshoot --ultrathink</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section id="best-practices">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-emerald-500/10 p-2 rounded-lg">
+                    <svg class="icon text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">📋 Best Practices</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">1. Always validate risky operations</h3>
+                    <div class="command-example">
+                        <div class="command">/deploy --env prod --validate --plan</div>
+                        <div class="command">/migrate --database --dry-run --backup</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">2. Use appropriate personas</h3>
+                    <div class="command-example">
+                        <div class="command">/analyze --architecture --persona-architect</div>
+                        <div class="command">/scan --security --persona-security</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">3. Combine MCP servers for maximum capability</h3>
+                    <div class="command-example">
+                        <div class="command">/build --react --magic --seq --c7</div>
+                        <div class="command">/test --e2e --pup --coverage</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">4. Track progress with task management</h3>
+                    <div class="command-example">
+                        <div class="command">/task:create "Implement OAuth 2.0"</div>
+                        <div class="command">/task:status oauth-task-id</div>
+                        <div class="command">/task:complete oauth-task-id</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section id="getting-started">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="icon text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-white section-title">🚀 Getting Started</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">1. Install SuperClaude</h3>
+                    <div class="command-example">
+                        <div class="command">git clone https://github.com/NomenAK/SuperClaude.git</div>
+                        <div class="command">cd SuperClaude</div>
+                        <div class="command">./install.sh</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">2. Verify installation</h3>
+                    <div class="command-example">
+                        <div class="command">/load</div>
+                        <div class="command">/analyze --code --think</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-white mb-4">3. Start with a simple command</h3>
+                    <div class="command-example">
+                        <div class="command">/review --files src/main.js --quality</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 mt-16 border-t border-gray-800">
+        <p class="text-gray-400 mb-2">
+            SuperClaude Commands Guide - คู่มือคำสั่งสำหรับนักพัฒนาระดับมืออาชีพ
+        </p>
+        <p class="text-gray-500">© 2024 Prof. Tonman Worawut Sr. Boontan - Professional Development Team Commands</p>
+    </footer>
+
+</body>
+
+</html>
