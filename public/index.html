@@ -89,6 +89,240 @@
             background-color: #1d4ed8;
             color: #ffffff;
         }
+
+        .navigation-container {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(168, 85, 247, 0.05));
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            border-radius: 1.5rem;
+            margin: 3rem auto;
+            padding: 2rem;
+            max-width: 5xl;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .navigation-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .navigation-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .navigation-subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .anchor-chips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            justify-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .anchor-chips {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .anchor-chips {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .chip:hover::before {
+            left: 100%;
+        }
+
+        .chip:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: currentColor;
+        }
+
+        .chip:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .chip-instructor {
+            background-color: rgba(107, 114, 128, 0.1);
+            color: #9ca3af;
+            border-color: rgba(107, 114, 128, 0.3);
+        }
+
+        .chip-instructor:hover {
+            background-color: rgba(107, 114, 128, 0.2);
+            color: #d1d5db;
+        }
+
+        .chip-getting-started {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .chip-getting-started:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .chip-workflow {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .chip-workflow:hover {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #6ee7b7;
+        }
+
+        .chip-limitations {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .chip-limitations:hover {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .chip-worktrees {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .chip-worktrees:hover {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        .chip-hooks {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a78bfa;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .chip-hooks:hover {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #c4b5fd;
+        }
+
+        .chip-custom-commands {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #22d3ee;
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .chip-custom-commands:hover {
+            background-color: rgba(6, 182, 212, 0.2);
+            color: #67e8f9;
+        }
+
+        .chip-save-resume {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .chip-save-resume:hover {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .chip-extensions {
+            background-color: rgba(236, 72, 153, 0.1);
+            color: #ec4899;
+            border-color: rgba(236, 72, 153, 0.3);
+        }
+
+        .chip-extensions:hover {
+            background-color: rgba(236, 72, 153, 0.2);
+            color: #f472b6;
+        }
+
+
+        .chip-mcp {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: #059669;
+            border-color: rgba(5, 150, 105, 0.3);
+        }
+
+        .chip-mcp:hover {
+            background-color: rgba(5, 150, 105, 0.2);
+            color: #10b981;
+        }
+
+        .chip-future {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .chip-future:hover {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
     </style>
 </head>
 
@@ -102,6 +336,7 @@
                     <span class="text-gray-400">|</span>
                     <div class="flex space-x-2">
                         <a href="index.html" class="nav-link active">หน้าหลัก</a>
+                        <a href="superclaude.html" class="nav-link">SuperClaude</a>
                         <a href="advanced-techniques.html" class="nav-link">Advanced Techniques</a>
                     </div>
                 </div>
@@ -122,6 +357,65 @@
                 คู่มือฉบับสมบูรณ์สำหรับนักพัฒนา: ปลดล็อกประสิทธิภาพการทำงานขั้นสูงสุดผ่าน AI
                 ที่สนทนาได้โดยตรงจากเทอร์มินัลของคุณ
             </p>
+        </div>
+    </div>
+
+    <!-- Creative Navigation Container -->
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="navigation-container">
+            <div class="navigation-header">
+                <h3 class="navigation-title">
+                    🧭 <span>สารบัญหัวข้อ</span> 📋
+                </h3>
+                <p class="navigation-subtitle">คลิกเพื่อไปยังหัวข้อที่สนใจ</p>
+            </div>
+            
+            <div class="anchor-chips">
+                <a href="#instructor" class="chip chip-instructor">
+                    <span>👨‍🏫</span>
+                    <span>แนะนำผู้สอน</span>
+                </a>
+                <a href="#getting-started" class="chip chip-getting-started">
+                    <span>🚀</span>
+                    <span>เริ่มต้นใช้งาน</span>
+                </a>
+                <a href="#workflow" class="chip chip-workflow">
+                    <span>💡</span>
+                    <span>เวิร์กโฟลว์และเทคนิค</span>
+                </a>
+                <a href="#limitations" class="chip chip-limitations">
+                    <span>⚠️</span>
+                    <span>ข้อจำกัดที่ควรรู้</span>
+                </a>
+                <a href="#worktrees" class="chip chip-worktrees">
+                    <span>⚡</span>
+                    <span>Git Worktrees</span>
+                </a>
+                <a href="#hooks" class="chip chip-hooks">
+                    <span>⚙️</span>
+                    <span>Hooks</span>
+                </a>
+                <a href="#custom-commands" class="chip chip-custom-commands">
+                    <span>⚡</span>
+                    <span>Custom Commands</span>
+                </a>
+                <a href="#save-resume" class="chip chip-save-resume">
+                    <span>💾</span>
+                    <span>Save/Resume</span>
+                </a>
+                <a href="#extensions" class="chip chip-extensions">
+                    <span>🧩</span>
+                    <span>Extensions</span>
+                </a>
+                <a href="#mcp" class="chip chip-mcp">
+                    <span>🔌</span>
+                    <span>MCP</span>
+                </a>
+                <a href="#future" class="chip chip-future">
+                    <span>🤔</span>
+                    <span>อนาคต</span>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -851,224 +1145,6 @@ claude save "branch_status.md" "Working on feature/auth branch"</code></pre>
         </section>
 
 
-
-        <!-- Section 7: Team Development Workflow -->
-        <section id="team-workflow">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="bg-orange-500/10 p-2 rounded-lg">
-                    <svg class="icon text-orange-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                    </svg>
-                </div>
-                <h2 class="text-3xl font-bold text-white section-title">👥 Team Development Workflow</h2>
-            </div>
-            <div class="space-y-6">
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">🏗️ โครงสร้างโปรเจกต์และการตั้งค่าเริ่มต้น</h3>
-                    <div class="space-y-4">
-                        <p class="text-gray-300">การจัดการโปรเจกต์ที่มีประสิทธิภาพด้วย Claude Code
-                            เริ่มต้นจากการตั้งค่าโครงสร้างที่ถูกต้อง:</p>
-                        <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">📁 Project Root
-├── 📁 music-shop/                    # Main project directory
-│   ├── 📄 claude.md                  # Claude's "brain" - project memory
-│   ├── 📁 .claude/                   # Claude Code settings
-│   ├── 📁 .cursor/                   # Cursor settings
-│   ├── 📄 .env                       # Environment variables
-│   └── 📄 settings.json              # Hooks configuration
-└── 📁 music-shop-worktrees/          # Worktrees directory (parallel to main)
-    ├── 📁 feature-authentication/
-    ├── 📁 feature-payment/
-    └── 📁 feature-dashboard/</code></pre>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">🔄 กระบวนการพัฒนาแบบขั้นตอน</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-white mb-2">Phase 1: วางแผนและการตั้งค่า</h4>
-                            <ol class="list-decimal list-inside space-y-2 text-gray-300">
-                                <li><strong>วิเคราะห์ความต้องการ:</strong> ใช้ Plan Mode (Shift + Tab)
-                                    เพื่อวิเคราะห์โดยไม่เขียนโค้ด</li>
-                                <li><strong>สร้าง GitHub Issue:</strong> บันทึกความต้องการและแผนงานเป็น Issue</li>
-                                <li><strong>สร้าง Git Worktree:</strong> <code
-                                        class="code-block">git worktree add ../music-shop-worktrees/feature-name feature-name</code>
-                                </li>
-                                <li><strong>ตั้งค่าสภาพแวดล้อม:</strong> คัดลอกไฟล์ .env, .claude, .cursor ไปยัง
-                                    Worktree</li>
-                                <li><strong>เปิด Editor ใหม่:</strong> เปิด IDE instance แยกสำหรับแต่ละ Worktree</li>
-                            </ol>
-                        </div>
-
-                        <div>
-                            <h4 class="font-semibold text-white mb-2">Phase 2: วงจรการพัฒนา</h4>
-                            <ol class="list-decimal list-inside space-y-2 text-gray-300">
-                                <li><strong>เขียนโค้ด:</strong> ใช้ Git เป็นระบบ Checkpoint</li>
-                                <li><strong>Commit บ่อยๆ:</strong> บันทึกความก้าวหน้าทุกขั้นตอน</li>
-                                <li><strong>Code Review:</strong> ตรวจสอบผลงานเหมือน Pull Request</li>
-                                <li><strong>ตรวจสอบคุณภาพ:</strong> ไม่ยอมรับงานโดยไม่ตรวจสอบ</li>
-                                <li><strong>Merge หรือ Revert:</strong> ยอมรับหรือทิ้งการเปลี่ยนแปลง</li>
-                                <li><strong>ทำความสะอาด:</strong> ลบ Worktree เมื่อเสร็จสิ้น</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">⚡ การทำงานแบบขนาน (Parallel Development)</h3>
-                    <div class="space-y-4">
-                        <p class="text-gray-300">ใช้ Git Worktrees เพื่อจัดการหลาย Feature พร้อมกันโดยไม่มีการชนกัน:</p>
-                        <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">Session 1: Authentication Feature
-├── 📁 music-shop-worktrees/feature-auth/
-├── 💻 Cursor Instance #1
-├── 🖥️ Terminal #1
-└── 🤖 Claude Code Instance #1
-
-Session 2: Payment Integration
-├── 📁 music-shop-worktrees/feature-payment/
-├── 💻 Cursor Instance #2
-├── 🖥️ Terminal #2
-└── 🤖 Claude Code Instance #2
-
-Session 3: Dashboard UI
-├── 📁 music-shop-worktrees/feature-dashboard/
-├── 💻 Cursor Instance #3
-├── 🖥️ Terminal #3
-└── 🤖 Claude Code Instance #3</code></pre>
-                        <div class="bg-red-900/50 border border-red-500/30 text-red-300 text-sm rounded-lg p-3 mt-4">
-                            <strong>ข้อควรระวัง:</strong> อย่าสร้าง Worktree เป็น subfolder ภายใต้โปรเจกต์หลักเด็ดขาด
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">🤖 Sub-agents สำหรับงานที่ซับซ้อน</h3>
-                    <div class="space-y-4">
-                        <p class="text-gray-300">ใช้ Sub-agents เพื่อจัดการงานที่ซับซ้อนแบบขนาน:</p>
-                        <div class="grid md:grid-cols-3 gap-4">
-                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                                <h4 class="font-semibold text-blue-400 mb-2">🤖 Sub-agent 1</h4>
-                                <p class="text-sm text-gray-300">Frontend Components</p>
-                                <p class="text-xs text-gray-400">⚛️ React Components</p>
-                            </div>
-                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                                <h4 class="font-semibold text-green-400 mb-2">🤖 Sub-agent 2</h4>
-                                <p class="text-sm text-gray-300">Backend Services</p>
-                                <p class="text-xs text-gray-400">🗄️ API Endpoints</p>
-                            </div>
-                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                                <h4 class="font-semibold text-purple-400 mb-2">🤖 Sub-agent 3</h4>
-                                <p class="text-sm text-gray-300">Testing Suite</p>
-                                <p class="text-xs text-gray-400">🧪 Test Cases</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">📊 Quality Assurance & Monitoring</h3>
-                    <div class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                                <h4 class="font-semibold text-orange-400 mb-2">🛡️ Safety Measures</h4>
-                                <ul class="text-sm space-y-1 text-gray-300">
-                                    <li>• Pre-tool Safety Checks</li>
-                                    <li>• Command Blocking</li>
-                                    <li>• Safe Execution</li>
-                                    <li>• Auto-recovery</li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                                <h4 class="font-semibold text-cyan-400 mb-2">📈 Monitoring</h4>
-                                <ul class="text-sm space-y-1 text-gray-300">
-                                    <li>• Performance Metrics</li>
-                                    <li>• Team Notifications</li>
-                                    <li>• Transcript Analysis</li>
-                                    <li>• Process Improvement</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">🚀 Automation Scripts</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-white mb-2">สคริปต์สร้าง Worktree (WT)</h4>
-                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">#!/bin/bash
-# WT - Worktree automation script
-
-FEATURE_NAME=$1
-WORKTREE_DIR="../music-shop-worktrees/$FEATURE_NAME"
-
-# Create worktree and branch
-git worktree add $WORKTREE_DIR $FEATURE_NAME
-
-# Copy essential files
-cp .env $WORKTREE_DIR/
-cp -r .claude $WORKTREE_DIR/
-cp -r .cursor $WORKTREE_DIR/
-cp claude.md $WORKTREE_DIR/
-
-# Open new editor instance
-cursor $WORKTREE_DIR &
-
-echo "✅ Worktree '$FEATURE_NAME' created and ready!"</code></pre>
-                        </div>
-
-                        <div>
-                            <h4 class="font-semibold text-white mb-2">สคริปต์ทำความสะอาด</h4>
-                            <pre class="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm overflow-x-auto"><code class="text-green-400">#!/bin/bash
-# Cleanup completed worktrees
-
-FEATURE_NAME=$1
-WORKTREE_DIR="../music-shop-worktrees/$FEATURE_NAME"
-
-# Remove worktree
-git worktree remove $WORKTREE_DIR
-
-# Delete branch (optional)
-git branch -d $FEATURE_NAME
-
-echo "🗑️ Worktree '$FEATURE_NAME' cleaned up!"</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 class="text-xl font-semibold text-white mb-3">💡 Best Practices สำหรับ Team Development</h3>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                            <h4 class="font-semibold text-green-400 mb-2">✅ ควรทำ</h4>
-                            <ul class="text-sm space-y-1 text-gray-300">
-                                <li>• เริ่มด้วย Plan Mode เสมอ</li>
-                                <li>• Commit บ่อยๆ เป็น Checkpoint</li>
-                                <li>• Review โค้ดจาก AI อย่างละเอียด</li>
-                                <li>• ใช้ Worktree แยกสำหรับแต่ละ Feature</li>
-                                <li>• ให้บริบทที่ครบถ้วน (รูปภาพ, URL)</li>
-                                <li>• ใช้ Custom Slash Commands</li>
-                                <li>• ติดตามผลงานด้วย Hooks</li>
-                            </ul>
-                        </div>
-                        <div class="bg-gray-900/50 border border-gray-600 rounded-lg p-4">
-                            <h4 class="font-semibold text-red-400 mb-2">❌ ไม่ควรทำ</h4>
-                            <ul class="text-sm space-y-1 text-gray-300">
-                                <li>• ทำงานใน Branch เดียวกันพร้อมกัน</li>
-                                <li>• ยอมรับการเปลี่ยนแปลงโดยไม่ Review</li>
-                                <li>• ข้าม Planning Phase</li>
-                                <li>• ละเลย Safety Measures</li>
-                                <li>• สร้าง Worktree ใน Main Project</li>
-                                <li>• ลืม Sync claude.md ระหว่าง Worktrees</li>
-                                <li>• ข้าม Transcript Analysis</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Section 8: MCP -->
         <section id="mcp">

@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperClaude Training Guide - คู่มือการใช้งาน SuperClaude</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.15), transparent 60%);
+        }
+
+        .section-title {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            font-weight: 700;
+        }
+
+        .code-block {
+            background-color: #1f2937;
+            color: #93c5fd;
+            font-family: 'Menlo', 'Consolas', monospace;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+            display: inline-block;
+        }
+
+        .card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+        }
+
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            stroke-width: 1.5;
+        }
+
+        .navbar {
+            background-color: #1f2937;
+            border-bottom: 1px solid #374151;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .nav-link:hover {
+            background-color: #374151;
+            color: #60a5fa;
+        }
+
+        .nav-link.active {
+            background-color: #1d4ed8;
+            color: #ffffff;
+        }
+
+        .navigation-container {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            border-radius: 1.5rem;
+            margin: 3rem auto;
+            padding: 2rem;
+            max-width: 5xl;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navigation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .navigation-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .navigation-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .navigation-subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            opacity: 0.8;
+        }
+
+        .anchor-chips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .anchor-chips {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .anchor-chips {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .chip:hover::before {
+            left: 100%;
+        }
+
+        .chip:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: currentColor;
+        }
+
+        .chip:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .chip-installation {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .chip-installation:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .chip-commands {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a78bfa;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .chip-commands:hover {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #c4b5fd;
+        }
+
+        .chip-personas {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .chip-personas:hover {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .chip-workflows {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .chip-workflows:hover {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        .chip-team {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .chip-team:hover {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .chip-security {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .chip-security:hover {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+
+        .chip-performance {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .chip-performance:hover {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .chip-monitoring {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a78bfa;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .chip-monitoring:hover {
+            background-color: rgba(168, 85, 247, 0.2);
+            color: #c4b5fd;
+        }
+
+        .chip-troubleshooting {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .chip-troubleshooting:hover {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .command-example {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            overflow-x: auto;
+        }
+
+        .command-example .command {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .command-example .comment {
+            color: #6b7280;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .badge-new {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .badge-advanced {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a78bfa;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .badge-enterprise {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <h1 class="text-xl font-bold text-white">SuperClaude Guide</h1>
+                    </div>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="index.html" class="nav-link">หน้าหลัก</a>
+                        <a href="superclaude.html" class="nav-link active">SuperClaude</a>
+                        <a href="advanced-techniques.html" class="nav-link">Advanced Techniques</a>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    Prof. Tonman Worawut Sr. Boontan
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-96 flex items-center justify-center text-center px-4 py-16 hero-gradient">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block bg-green-500/10 text-green-400 text-sm font-semibold px-3 py-1 rounded-full mb-4">
+                SuperClaude Framework
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 section-title">
+                SuperClaude Training Guide
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+                คู่มือการใช้งาน SuperClaude Framework สำหรับนักพัฒนาระดับมืออาชีพ
+                <br>
+                <span class="text-green-400">Enhanced AI Development Workflows</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Creative Navigation Container -->
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="navigation-container">
+            <div class="navigation-header">
+                <h3 class="navigation-title">
+                    🚀 <span>SuperClaude Guide</span> ⚡
+                </h3>
+                <p class="navigation-subtitle">คลิกเพื่อไปยังหัวข้อที่สนใจ - Professional AI Development Framework</p>
+            </div>
+
+            <div class="anchor-chips">
+                <a href="#installation" class="chip chip-installation">
+                    <span>📦</span>
+                    <span>Installation & Setup</span>
+                </a>
+                <a href="#commands" class="chip chip-commands">
+                    <span>⚙️</span>
+                    <span>Essential Commands</span>
+                </a>
+                <a href="#personas" class="chip chip-personas">
+                    <span>🤖</span>
+                    <span>Cognitive Personas</span>
+                </a>
+                <a href="#workflows" class="chip chip-workflows">
+                    <span>🔄</span>
+                    <span>Workflow Examples</span>
+                </a>
+                <a href="#team-development" class="chip chip-team">
+                    <span>👥</span>
+                    <span>Team Development</span>
+                </a>
+                <a href="#security" class="chip chip-security">
+                    <span>🔒</span>
+                    <span>Security & Compliance</span>
+                </a>
+                <a href="#performance" class="chip chip-performance">
+                    <span>⚡</span>
+                    <span>Performance</span>
+                </a>
+                <a href="#monitoring" class="chip chip-monitoring">
+                    <span>📊</span>
+                    <span>Monitoring</span>
+                </a>
+                <a href="#troubleshooting" class="chip chip-troubleshooting">
+                    <span>🔧</span>
+                    <span>Troubleshooting</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-12 md:py-20 space-y-16">
+
+        <!-- What is SuperClaude Section -->
+        <section id="introduction">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 section-title">
+                    What is SuperClaude?
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    SuperClaude เป็น Enhanced Configuration Framework สำหรับ Claude Code ที่ช่วยเพิ่มประสิทธิภาพการพัฒนา
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="feature-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-500/10 p-2 rounded-lg mr-3">
+                            <svg class="icon text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                        </div>
+                        <span class="badge badge-new">New</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">19 Specialized Commands</h3>
+                    <p class="text-gray-400">คำสั่งพิเศษสำหรับการพัฒนา, วิเคราะห์, และการดำเนินงาน</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-500/10 p-2 rounded-lg mr-3">
+                            <svg class="icon text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <span class="badge badge-advanced">Advanced</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Cognitive Personas</h3>
+                    <p class="text-gray-400">AI Expertise Modes สำหรับบทบาทต่างๆ (architect, security, QA)</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-500/10 p-2 rounded-lg mr-3">
+                            <svg class="icon text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <span class="badge badge-enterprise">Enterprise</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">MCP Integration</h3>
+                    <p class="text-gray-400">Multi-Context Processing กับ Specialized Servers</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation Section -->
+        <section id="installation">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-blue-500/10 p-2 rounded-lg">
+                    <svg class="icon text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Installation & Setup
+                </h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Quick Install</h3>
+                    <div class="command-example">
+                        <div class="command">git clone https://github.com/NomenAK/SuperClaude.git && cd SuperClaude && ./install.sh</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Installation Options</h3>
+                    <div class="command-example">
+                        <div class="comment"># Basic installation (default: ~/.claude/)</div>
+                        <div class="command">./install.sh</div>
+                        <br>
+                        <div class="comment"># Custom location</div>
+                        <div class="command">./install.sh --dir /opt/claude</div>
+                        <br>
+                        <div class="comment"># Update existing installation</div>
+                        <div class="command">./install.sh --update</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Verify Installation</h3>
+                    <div class="command-example">
+                        <div class="command">/load</div>
+                        <div class="comment"># Load project context</div>
+                        <br>
+                        <div class="command">/analyze --code --think</div>
+                        <div class="comment"># Test basic analysis</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commands Section -->
+        <section id="commands">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="icon text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Essential Commands
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">/build - Universal Project Builder</h3>
+                    <div class="command-example">
+                        <div class="comment"># Initialize new React project</div>
+                        <div class="command">/build --init --react --magic --tdd</div>
+                        <br>
+                        <div class="comment"># Full-stack development</div>
+                        <div class="command">/build --fullstack --tdd --magic</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">/review - AI-Powered Code Review</h3>
+                    <div class="command-example">
+                        <div class="comment"># Security-focused file review</div>
+                        <div class="command">/review --files src/auth.ts --persona-security</div>
+                        <br>
+                        <div class="comment"># Quality review with evidence</div>
+                        <div class="command">/review --commit HEAD --quality --evidence</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">/analyze - Multi-Dimensional Analysis</h3>
+                    <div class="command-example">
+                        <div class="comment"># Full system analysis</div>
+                        <div class="command">/analyze --code --architecture --seq</div>
+                        <br>
+                        <div class="comment"># Performance deep-dive</div>
+                        <div class="command">/analyze --profile --deep --persona-performance</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">/deploy - Safe Deployment</h3>
+                    <div class="command-example">
+                        <div class="comment"># Canary production deployment</div>
+                        <div class="command">/deploy --env prod --canary --monitor</div>
+                        <br>
+                        <div class="comment"># Emergency rollback</div>
+                        <div class="command">/deploy --rollback --env prod</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personas Section -->
+        <section id="personas">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-green-500/10 p-2 rounded-lg">
+                    <svg class="icon text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Cognitive Personas
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-2">--persona-architect</h3>
+                    <p class="text-gray-400 mb-3">Systems thinking, scalability, patterns</p>
+                    <div class="command-example">
+                        <div class="command">/analyze --architecture --persona-architect</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-2">--persona-security</h3>
+                    <p class="text-gray-400 mb-3">Threat modeling, zero-trust, OWASP</p>
+                    <div class="command-example">
+                        <div class="command">/scan --security --persona-security</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-2">--persona-performance</h3>
+                    <p class="text-gray-400 mb-3">Optimization, profiling, efficiency</p>
+                    <div class="command-example">
+                        <div class="command">/improve --performance --persona-performance</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-2">--persona-frontend</h3>
+                    <p class="text-gray-400 mb-3">UI/UX obsessed, accessibility-first</p>
+                    <div class="command-example">
+                        <div class="command">/build --react --persona-frontend</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-2">--persona-backend</h3>
+                    <p class="text-gray-400 mb-3">APIs, databases, reliability</p>
+                    <div class="command-example">
+                        <div class="command">/build --api --persona-backend</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-bold text-white mb-2">--persona-qa</h3>
+                    <p class="text-gray-400 mb-3">Testing, edge cases, validation</p>
+                    <div class="command-example">
+                        <div class="command">/test --coverage --persona-qa</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflows Section -->
+        <section id="workflows">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-yellow-500/10 p-2 rounded-lg">
+                    <svg class="icon text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Workflow Examples
+                </h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Full-Stack Development Workflow</h3>
+                    <div class="command-example">
+                        <div class="comment"># Design phase</div>
+                        <div class="command">/design --api --ddd --persona-architect</div>
+                        <br>
+                        <div class="comment"># Implementation</div>
+                        <div class="command">/build --fullstack --tdd --magic</div>
+                        <br>
+                        <div class="comment"># Testing</div>
+                        <div class="command">/test --coverage --e2e --pup</div>
+                        <br>
+                        <div class="comment"># Deployment</div>
+                        <div class="command">/deploy --env staging --validate</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Security-First Development</h3>
+                    <div class="command-example">
+                        <div class="comment"># Security scan</div>
+                        <div class="command">/scan --security --owasp --deps --persona-security</div>
+                        <br>
+                        <div class="comment"># Forensic analysis</div>
+                        <div class="command">/analyze --security --forensic --seq</div>
+                        <br>
+                        <div class="comment"># Security improvements</div>
+                        <div class="command">/improve --security --validate --strict</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Performance Optimization</h3>
+                    <div class="command-example">
+                        <div class="comment"># Deep profiling</div>
+                        <div class="command">/analyze --profile --deep --persona-performance</div>
+                        <br>
+                        <div class="comment"># Performance troubleshooting</div>
+                        <div class="command">/troubleshoot --perf --investigate --pup</div>
+                        <br>
+                        <div class="comment"># Iterative improvement</div>
+                        <div class="command">/improve --performance --iterate --threshold 90%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Development Section -->
+        <section id="team-development">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-red-500/10 p-2 rounded-lg">
+                    <svg class="icon text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Team Development
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Code Review & Collaboration</h3>
+                    <div class="command-example">
+                        <div class="comment"># Team code review workflow</div>
+                        <div class="command">/review --pr 123 --team --collaborative --persona-mentor</div>
+                        <br>
+                        <div class="comment"># Cross-team knowledge sharing</div>
+                        <div class="command">/explain --codebase --team --visual --seq</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Team Onboarding</h3>
+                    <div class="command-example">
+                        <div class="comment"># New team member setup</div>
+                        <div class="command">/dev-setup --onboarding --team --docs --standards</div>
+                        <br>
+                        <div class="comment"># Codebase walkthrough</div>
+                        <div class="command">/explain --architecture --beginner --visual --interactive</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Section -->
+        <section id="security">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="icon text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Security & Compliance
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Security Auditing</h3>
+                    <div class="command-example">
+                        <div class="comment"># Comprehensive security audit</div>
+                        <div class="command">/scan --security --comprehensive --owasp --deps --persona-security</div>
+                        <br>
+                        <div class="comment"># Vulnerability assessment</div>
+                        <div class="command">/scan --vulnerabilities --severity --remediation --strict</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Compliance Management</h3>
+                    <div class="command-example">
+                        <div class="comment"># GDPR compliance check</div>
+                        <div class="command">/scan --compliance --gdpr --data-protection --strict</div>
+                        <br>
+                        <div class="comment"># SOC 2 compliance</div>
+                        <div class="command">/scan --compliance --soc2 --controls --evidence</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Section -->
+        <section id="performance">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-green-500/10 p-2 rounded-lg">
+                    <svg class="icon text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Performance Optimization
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Application Performance</h3>
+                    <div class="command-example">
+                        <div class="comment"># Performance profiling</div>
+                        <div class="command">/analyze --profile --performance --bottlenecks --pup</div>
+                        <br>
+                        <div class="comment"># Memory optimization</div>
+                        <div class="command">/improve --memory --leaks --optimization --persona-performance</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Frontend Performance</h3>
+                    <div class="command-example">
+                        <div class="comment"># Core Web Vitals optimization</div>
+                        <div class="command">/improve --web-vitals --performance --persona-frontend</div>
+                        <br>
+                        <div class="comment"># Bundle optimization</div>
+                        <div class="command">/improve --bundle --size --splitting --magic</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring Section -->
+        <section id="monitoring">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-purple-500/10 p-2 rounded-lg">
+                    <svg class="icon text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Monitoring & Observability
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Application Monitoring</h3>
+                    <div class="command-example">
+                        <div class="comment"># Monitoring setup</div>
+                        <div class="command">/dev-setup --monitoring --metrics --alerts --observability</div>
+                        <br>
+                        <div class="comment"># Health checks implementation</div>
+                        <div class="command">/build --health-checks --monitoring --alerting --seq</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Metrics & Alerting</h3>
+                    <div class="command-example">
+                        <div class="comment"># Metrics collection</div>
+                        <div class="command">/improve --metrics --collection --custom --dashboards</div>
+                        <br>
+                        <div class="comment"># Alerting strategy</div>
+                        <div class="command">/improve --alerting --thresholds --escalation --pup</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting Section -->
+        <section id="troubleshooting">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-red-500/10 p-2 rounded-lg">
+                    <svg class="icon text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white section-title">
+                    Troubleshooting
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Common Issues</h3>
+                    <div class="command-example">
+                        <div class="comment"># Token limit issues</div>
+                        <div class="command">/analyze --uc</div>
+                        <div class="command">/scan --no-mcp</div>
+                        <br>
+                        <div class="comment"># Performance issues</div>
+                        <div class="command">/analyze --profile --perf</div>
+                        <div class="command">/improve --performance --persona-performance</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Emergency Commands</h3>
+                    <div class="command-example">
+                        <div class="comment"># Production issues</div>
+                        <div class="command">/troubleshoot --prod --five-whys --seq</div>
+                        <br>
+                        <div class="comment"># Emergency rollback</div>
+                        <div class="command">/deploy --rollback --env prod</div>
+                        <br>
+                        <div class="comment"># Security breach</div>
+                        <div class="command">/scan --security --owasp --strict</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Reference Section -->
+        <section id="quick-reference">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 section-title">
+                    Quick Reference
+                </h2>
+                <p class="text-xl text-gray-400">คำสั่งที่ใช้บ่อยที่สุดและ Emergency Commands</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Most Used Commands</h3>
+                    <div class="command-example">
+                        <div class="command">/build --react --magic --tdd</div>
+                        <div class="comment"># React development</div>
+                        <br>
+                        <div class="command">/review --quality --evidence</div>
+                        <div class="comment"># Code review</div>
+                        <br>
+                        <div class="command">/analyze --architecture --seq</div>
+                        <div class="comment"># System analysis</div>
+                        <br>
+                        <div class="command">/test --coverage --e2e --pup</div>
+                        <div class="comment"># Comprehensive testing</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Essential Flags</h3>
+                    <div class="command-example">
+                        <div class="command">--think / --think-hard / --ultrathink</div>
+                        <div class="comment"># Thinking depth</div>
+                        <br>
+                        <div class="command">--uc / --ultracompressed</div>
+                        <div class="comment"># Token optimization</div>
+                        <br>
+                        <div class="command">--persona-[role]</div>
+                        <div class="comment"># Specialized expertise</div>
+                        <br>
+                        <div class="command">--validate / --dry-run / --plan</div>
+                        <div class="comment"># Safety modes</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-gray-400 mb-2">
+                SuperClaude Training Guide v2.1 | Comprehensive development workflows with AI-enhanced capabilities
+            </p>
+            <p class="text-gray-500 text-sm">
+                © 2024 Prof. Tonman Worawut Sr. Boontan - Advanced Claude Code Development Framework
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
